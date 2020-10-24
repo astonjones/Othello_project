@@ -1,37 +1,14 @@
-package application;
-
+import java.util.ArrayList;
 import javafx.application.Application;
-import java.util.*;
-import java.util.List;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javax.swing.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.stage.Stage;
-import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.Group;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class Main extends Application {
 	
@@ -335,25 +312,61 @@ public class Main extends Application {
 		boardTile8x8.setFill(Color.GREEN);
 		//TILES END
 		
+		Boolean[][] grid = {
+			{null, null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null, null},
+			{null, null, null, false, true, null, null, null},
+			{null, null, null, true, false, null, null, null},
+			{null, null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null, null},
+			{null, null, null, null, null, null, null, null}
+		};
 		
+		ArrayList<Circle> discs = new ArrayList<Circle>();
+		for(int i = 0; i<8; i++)
+		{
+			for(int j = 0; j<8; j++)
+			{
+				if(grid[i][j] != null)
+				{
+					Circle newDisc = new Circle(50*j + 175, 50*i + 153, 22);
+					newDisc.setStroke(Color.BLACK);
+					if(grid[i][j])
+					{
+						newDisc.setFill(Color.BLACK);
+					}
+					else
+					{
+						newDisc.setFill(Color.WHITE);
+					}
+					discs.add(newDisc);
+				}
+			}
+		}
+		
+		/*
 		//CHIPS
 		//CHIPSNx1
-		Circle chip4x4 = new Circle(325,303,22);
-		chip4x4.setStroke(Color.BLACK);
-		chip4x4.setFill(Color.WHITE);
+		Circle white = new Circle(325,303,22);
+		white.setStroke(Color.BLACK);
+		white.setFill(Color.WHITE);
 		
-		Circle chip5x4 = new Circle(375,353,22);
-		chip5x4.setStroke(Color.BLACK);
-		chip5x4.setFill(Color.WHITE);
+		//Circle chip5x4 = new Circle(375,353,22);
+		//chip5x4.setStroke(Color.BLACK);
+		//chip5x4.setFill(Color.WHITE);
 		
-		Circle chip4x5 = new Circle(325,353,22);
-		chip4x5.setStroke(Color.BLACK);
-		chip4x5.setFill(Color.BLACK);
+		Circle black = new Circle(325,353,22);
+		black.setStroke(Color.BLACK);
+		black.setFill(Color.BLACK);
 		
-		Circle chip5x5 = new Circle(375,303,22);
-		chip5x5.setStroke(Color.BLACK);
-		chip5x5.setFill(Color.BLACK);
+		//Circle chip5x5 = new Circle(375,303,22);
+		//chip5x5.setStroke(Color.BLACK);
+		//chip5x5.setFill(Color.BLACK);
 		
+		discs.add(white);
+		discs.add(black);
+		*/
 		
 		Rectangle boardBorder = new Rectangle(140,118,420,420);
 		boardBorder.setStroke(Color.BLACK);
@@ -400,8 +413,11 @@ public class Main extends Application {
 									  boardTile1x6,boardTile2x6,boardTile3x6,boardTile4x6,boardTile5x6,boardTile6x6,boardTile7x6,boardTile8x6,
 									  boardTile1x7,boardTile2x7,boardTile3x7,boardTile4x7,boardTile5x7,boardTile6x7,boardTile7x7,boardTile8x7,
 									  boardTile1x8,boardTile2x8,boardTile3x8,boardTile4x8,boardTile5x8,boardTile6x8,boardTile7x8,boardTile8x8,
-									  chip4x4,chip5x4,chip4x5,chip5x5,
 									  P1Border,P1,P2Border,P2,pass,quit,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
+		for(Circle disc : discs)
+		{
+			rootPane.getChildren().addAll(disc);
+		}
 	
 		Scene scene = new Scene(rootPane, 1200, 800);
 

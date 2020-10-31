@@ -1,8 +1,12 @@
+package application;
+
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -10,14 +14,42 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Main extends Application {
-	
-	public static void main(String[] args) {
+public class Main extends Application
+{
+	public static void main(String[] args)
+	{
 		launch(args);		
 	}
 	
-	public void start(Stage primaryStage) {
-		
+	public static ArrayList<Circle> getBoardPosition(Board board)
+	{
+		int[][] grid = board.getBoard();
+		ArrayList<Circle> discs = new ArrayList<Circle>();
+		for(int i = 0; i<8; i++)
+		{
+			for(int j = 0; j<8; j++)
+			{
+				if(grid[i][j] == 1 || grid[i][j] == 2)
+				{
+					Circle newDisc = new Circle(50*j + 175, 50*i + 153, 22);
+					newDisc.setStroke(Color.BLACK);
+					if(grid[i][j] == 1)
+					{
+						newDisc.setFill(Color.BLACK);
+					}
+					else
+					{
+						newDisc.setFill(Color.WHITE);
+					}
+					discs.add(newDisc);
+				}
+			}
+		}
+		return discs;
+	}
+	
+	public void start(Stage primaryStage) throws InterruptedException
+	{
 		Pane rootPane = new Pane();
 		rootPane.setStyle("-fx-background-color:#520100;");
 		
@@ -45,7 +77,7 @@ public class Main extends Application {
 		P2Border.setStroke(Color.YELLOW);
 		P2Border.setFill(Color.YELLOW);
 		
-
+		/*
 		//TILES
 		//TILE Nx1
 		Rectangle boardTile1x1 = new Rectangle(150,128,50,50);
@@ -311,39 +343,8 @@ public class Main extends Application {
 		boardTile8x8.setStroke(Color.BLACK);
 		boardTile8x8.setFill(Color.GREEN);
 		//TILES END
-		
-		Boolean[][] grid = {
-			{null, null, null, null, null, null, null, null},
-			{null, null, null, null, null, null, null, null},
-			{null, null, null, null, null, null, null, null},
-			{null, null, null, false, true, null, null, null},
-			{null, null, null, true, false, null, null, null},
-			{null, null, null, null, null, null, null, null},
-			{null, null, null, null, null, null, null, null},
-			{null, null, null, null, null, null, null, null}
-		};
-		
-		ArrayList<Circle> discs = new ArrayList<Circle>();
-		for(int i = 0; i<8; i++)
-		{
-			for(int j = 0; j<8; j++)
-			{
-				if(grid[i][j] != null)
-				{
-					Circle newDisc = new Circle(50*j + 175, 50*i + 153, 22);
-					newDisc.setStroke(Color.BLACK);
-					if(grid[i][j])
-					{
-						newDisc.setFill(Color.BLACK);
-					}
-					else
-					{
-						newDisc.setFill(Color.WHITE);
-					}
-					discs.add(newDisc);
-				}
-			}
-		}
+		 * 
+		 */
 		
 		/*
 		//CHIPS
@@ -368,6 +369,8 @@ public class Main extends Application {
 		discs.add(black);
 		*/
 		
+		
+		
 		Rectangle boardBorder = new Rectangle(140,118,420,420);
 		boardBorder.setStroke(Color.BLACK);
 		boardBorder.setFill(Color.BLACK);	
@@ -380,7 +383,7 @@ public class Main extends Application {
 		P2Score.setStroke(Color.BLACK);
 		P2Score.setFill(Color.WHITE);
 		
-		TextField P1Name = new TextField("Player 1");
+		TextField P1Name = new TextField("Black");
 		P1Name.setLayoutX(924);
 		P1Name.setLayoutY(160);
 		
@@ -388,7 +391,7 @@ public class Main extends Application {
 		P1Timer.setLayoutX(924);
 		P1Timer.setLayoutY(220);
 		
-		TextField P2Name = new TextField("Player 2");
+		TextField P2Name = new TextField("White");
 		P2Name.setLayoutX(924);
 		P2Name.setLayoutY(380);
 		
@@ -405,24 +408,63 @@ public class Main extends Application {
 		P2S.setLayoutX(650);
 		P2S.setLayoutY(518);
 		
-		rootPane.getChildren().addAll(boardBorder,boardTile1x1,boardTile2x1,boardTile3x1,boardTile4x1,boardTile5x1,boardTile6x1,boardTile7x1,boardTile8x1,
-									  boardTile1x2,boardTile2x2,boardTile3x2,boardTile4x2,boardTile5x2,boardTile6x2,boardTile7x2,boardTile8x2,
-									  boardTile1x3,boardTile2x3,boardTile3x3,boardTile4x3,boardTile5x3,boardTile6x3,boardTile7x3,boardTile8x3,
-									  boardTile1x4,boardTile2x4,boardTile3x4,boardTile4x4,boardTile5x4,boardTile6x4,boardTile7x4,boardTile8x4,
-									  boardTile1x5,boardTile2x5,boardTile3x5,boardTile4x5,boardTile5x5,boardTile6x5,boardTile7x5,boardTile8x5,
-									  boardTile1x6,boardTile2x6,boardTile3x6,boardTile4x6,boardTile5x6,boardTile6x6,boardTile7x6,boardTile8x6,
-									  boardTile1x7,boardTile2x7,boardTile3x7,boardTile4x7,boardTile5x7,boardTile6x7,boardTile7x7,boardTile8x7,
-									  boardTile1x8,boardTile2x8,boardTile3x8,boardTile4x8,boardTile5x8,boardTile6x8,boardTile7x8,boardTile8x8,
-									  P1Border,P1,P2Border,P2,pass,quit,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
+		rootPane.getChildren().addAll(boardBorder,P1Border,P1,P2Border,P2,pass,quit,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
+		
+		Rectangle[][] tiles = new Rectangle[8][8];
+		for(int i = 0; i<8; i++)
+		{
+			for(int j = 0; j<8; j++)
+			{
+				Rectangle tile = new Rectangle(50*i+150, 50*j+128, 50, 50);
+				tile.setStroke(Color.BLACK);
+				tile.setFill(Color.GREEN);
+				tiles[i][j] = tile;
+			}
+		}
+		
+		Board board = new Board();
+		
+		ArrayList<Circle> discs = getBoardPosition(board);
+		
+		for(Rectangle[] r : tiles)
+		{
+			for(Rectangle r2 : r)
+			{
+				rootPane.getChildren().add(r2);
+			}
+		}
+		
 		for(Circle disc : discs)
 		{
-			rootPane.getChildren().addAll(disc);
+			rootPane.getChildren().add(disc);
 		}
-	
+		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
 		primaryStage.setTitle("OthelloV4");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
+		{
+			@Override
+			public void handle(MouseEvent event)
+			{
+				int r = ((int)event.getY()-128)/50;
+				int c = ((int)event.getX()-150)/50;
+				System.out.println(r+" "+c);
+				if(r < 0 || c < 0 || r > 7 || c > 7)
+				{
+					return;
+				}
+				if(board.isMoveValid(r, c))
+				{
+					board.updateBoard(r, c);
+					rootPane.getChildren().removeAll(discs);
+					ArrayList<Circle> newDiscs = getBoardPosition(board);
+					rootPane.getChildren().addAll(newDiscs);
+				}
+			}
+		});
 	}
 }

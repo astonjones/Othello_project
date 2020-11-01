@@ -2,7 +2,9 @@ package application;
 
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application
 {
+	
 	public static void main(String[] args)
 	{
 		launch(args);		
@@ -408,7 +411,9 @@ public class Main extends Application
 		P2S.setLayoutX(650);
 		P2S.setLayoutY(518);
 		
-		rootPane.getChildren().addAll(boardBorder,P1Border,P1,P2Border,P2,pass,quit,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
+		ObservableList<Node> othello = rootPane.getChildren();
+		
+		othello.addAll(boardBorder,P1Border,P1,P2,pass,quit,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
 		
 		Rectangle[][] tiles = new Rectangle[8][8];
 		for(int i = 0; i<8; i++)
@@ -430,14 +435,11 @@ public class Main extends Application
 		{
 			for(Rectangle r2 : r)
 			{
-				rootPane.getChildren().add(r2);
+				othello.add(r2);
 			}
 		}
 		
-		for(Circle disc : discs)
-		{
-			rootPane.getChildren().add(disc);
-		}
+		othello.addAll(discs);
 		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
@@ -460,9 +462,22 @@ public class Main extends Application
 				if(board.isMoveValid(r, c))
 				{
 					board.updateBoard(r, c);
-					rootPane.getChildren().removeAll(discs);
-					ArrayList<Circle> newDiscs = getBoardPosition(board);
-					rootPane.getChildren().addAll(newDiscs);
+					
+					ObservableList<Node> othello = rootPane.getChildren();
+					othello.removeAll(discs);
+					othello.addAll(getBoardPosition(board));
+					if(othello.contains(P2Border))
+					{
+						othello.remove(P2Border);
+						othello.add(P1Border);
+						P1Border.toBack();
+					}
+					else
+					{
+						othello.remove(P1Border);
+						othello.add(P2Border);
+						P2Border.toBack();
+					}
 				}
 			}
 		});

@@ -157,7 +157,7 @@ public class Board
 	 * places disc in the given location, and sets up play for the next player
 	 * args         x = row number, y = column number
 	 */
-	public void updateBoard(int x, int y)
+	public void placeDisc(int x, int y)
 	{
 		board[x][y] = turn;
 		for(int k = 0; k<8; k++)
@@ -214,9 +214,14 @@ public class Board
 			}
 		}
 		
+		changeTurn();
+	}
+	
+	public void changeTurn()
+	{
 		//toggle flag
 		turn = (turn == 2) ? 1 : 2;
-		
+				
 		//reset all '5' cells to '0' again
 		for(int i = 0; i<8; i++)
 		{
@@ -229,8 +234,6 @@ public class Board
 			}
 		}
 		
-		
-		
 		//mark new potential locations
 		moves();
 	}
@@ -238,5 +241,41 @@ public class Board
 	public int[][] getBoard()
 	{
 		return board;
+	}
+	
+	public int getScore(int type)
+	{
+		int ans = 0;
+		for(int i = 0; i<8; i++)
+		{
+			for(int j = 0; j<8; j++)
+			{
+				if(board[i][j] == type)
+				{
+					ans++;
+				}
+			}
+		}
+		return ans;
+	}
+	
+	public int getWhiteScore()
+	{
+		return getScore(WHITE);
+	}
+	
+	public int getBlackScore()
+	{
+		return getScore(BLACK);
+	}
+	
+	public int getValidSquares()
+	{
+		return getScore(VALID);
+	}
+	
+	public boolean mustPass()
+	{
+		return getValidSquares() == 0;
 	}
 }

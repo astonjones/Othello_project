@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -55,14 +57,6 @@ public class Main extends Application
 	{
 		Pane rootPane = new Pane();
 		rootPane.setStyle("-fx-background-color:#520100;");
-		
-		Button pass = new Button("Pass");
-		Button quit = new Button("QUIT");
-		pass.setLayoutX(900);
-		pass.setLayoutY(300);
-		
-		quit.setLayoutX(1057);
-		quit.setLayoutY(300);
 		
 		Rectangle P1 = new Rectangle(900,128,200,150);
 		P1.setStroke(Color.BLACK);
@@ -405,15 +399,17 @@ public class Main extends Application
 		Text P1S = new Text("2");
 		P1S.setLayoutX(650);
 		P1S.setLayoutY(308);
+		P1S.setFont(new Font("Arial Narrow", 30));
 		P1S.setFill(Color.WHITE);
 		
 		Text P2S = new Text("2");
 		P2S.setLayoutX(650);
 		P2S.setLayoutY(518);
+		P2S.setFont(new Font("Arial Narrow", 30));
 		
 		ObservableList<Node> othello = rootPane.getChildren();
 		
-		othello.addAll(boardBorder,P1Border,P1,P2,pass,quit,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
+		othello.addAll(boardBorder,P1Border,P1,P2,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
 		
 		Rectangle[][] tiles = new Rectangle[8][8];
 		for(int i = 0; i<8; i++)
@@ -441,6 +437,29 @@ public class Main extends Application
 		
 		othello.addAll(discs);
 		
+		Button pass = new Button("Pass");
+		Button quit = new Button("QUIT");
+		pass.setLayoutX(900);
+		pass.setLayoutY(300);
+		
+		quit.setLayoutX(1057);
+		quit.setLayoutY(300);
+		
+		EventHandler<ActionEvent> whenPass = new EventHandler<ActionEvent>()
+		{
+			public void handle(ActionEvent e)
+			{
+				if(board.mustPass())
+				{
+					board.changeTurn();
+				}
+			}
+		};
+		
+		pass.setOnAction(whenPass);
+		
+		rootPane.getChildren().addAll(pass, quit);
+		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
 		primaryStage.setTitle("OthelloV4");
@@ -455,30 +474,30 @@ public class Main extends Application
 				int r = ((int)event.getY()-128)/50;
 				int c = ((int)event.getX()-150)/50;
 				System.out.println(r+" "+c);
-				if(r < 0 || c < 0 || r > 7 || c > 7)
+				if(r < 0 || c < 0 || r > 7 || c > 7 || !board.isMoveValid(r, c))
 				{
 					return;
 				}
-				if(board.isMoveValid(r, c))
+				board.placeDisc(r, c);
+				ObservableList<Node> othello = rootPane.getChildren();
+				othello.removeAll(discs);
+				othello.addAll(getBoardPosition(board));
+				if(othello.contains(P2Border))
 				{
-					board.updateBoard(r, c);
-					
-					ObservableList<Node> othello = rootPane.getChildren();
-					othello.removeAll(discs);
-					othello.addAll(getBoardPosition(board));
-					if(othello.contains(P2Border))
-					{
-						othello.remove(P2Border);
-						othello.add(P1Border);
-						P1Border.toBack();
-					}
-					else
-					{
-						othello.remove(P1Border);
-						othello.add(P2Border);
-						P2Border.toBack();
-					}
+					othello.remove(P2Border);
+					othello.add(P1Border);
+					P1Border.toBack();
 				}
+				else
+				{
+					othello.remove(P1Border);
+					othello.add(P2Border);
+					P2Border.toBack();
+				}
+				int blackScore = board.getBlackScore();
+				int whiteScore = board.getWhiteScore();
+				P1S.setText(""+blackScore);
+				P2S.setText(""+whiteScore);
 			}
 		});
 	}

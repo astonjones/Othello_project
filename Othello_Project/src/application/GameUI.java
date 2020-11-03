@@ -1,37 +1,47 @@
 package application;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 /**
- * 
+ *  Starting point of the othello game. 
  */
-public class GameUI {
+public class GameUI extends Application {
 
-	/**
-	 * Default constructor
-	 */
-	public GameUI() {
+
+	public static void main(String[] args)
+	{
+		launch(args);		
 	}
 
+	@Override
+	public void start(Stage primaryStage) throws InterruptedException
+	{
+		// displayMainMenu();
+		// dispalyLoginForm();
 
-
-
-	/**
-	 * 
-	 */
-	public void Main() {
-		// TODO implement here
+		// create players 1 and 2 object (use output of login form)
+		Player p1 = new Player("Jason", "123456");
+		Player p2 = new Player("Thomas", "345678");
+		Game game = new Game(primaryStage, p1, p2); // create a new game object
+		GameBoardUI gbUI = new GameBoardUI(game); // create a new game UI screen
+		gbUI.startGame(); // kickoff the gameboard UI
+		
+		// displayGameOver();
 	}
+
 
 	/**
 	 * 
 	 */
 	public void displayMainMenu() {
-		// TODO implement here
+		// UI for main menu here
 	}
 
 	/**
 	 * 
 	 */
 	public void displayLoginForm() {
-		// TODO implement here
+		// UI for login form here
 	}
 
 	/**
@@ -45,14 +55,9 @@ public class GameUI {
 	 * 
 	 */
 	public void displayPlayerInfo() {
-		// TODO implement here
+		// UI for player infomation here
 	}
 
-	/**
-	 * @param ui
-	 */
-	public void displayGameBoard() {
-		// TODO implement here
-	}
+
 
 }

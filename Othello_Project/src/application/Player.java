@@ -5,17 +5,17 @@ package application;
 public class Player
 {
 	private String playerName;
-	private int password;
+	private String password;
 
 	/**
 	 * Default constructor
 	 */
-	public Player(String name, int pass) {
+	public Player(String name, String pass) {
 		this.playerName = name;
 		this.password = pass;
 	}
 
-	public boolean isPlayer(String name, int pass) {
+	public boolean isPlayer(String name, String pass) {
 		if (playerName == name && password == pass){
 			return true;
 		} else {
@@ -27,7 +27,7 @@ public class Player
 		return playerName;
 	}
 
-	public int getPassword() {
+	public String getPassword() {
 		return password;
 	}
 

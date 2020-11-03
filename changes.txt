@@ -1,0 +1,12 @@
+Large game structure changes
+- Merged Main.java into GameUI.java
+- GameUI.java now contains the main and start methods. Look here first for a better understanding of how the game functions.
+- Moved the UI code that draws the game board from Main.java into GameBoardUI.java. That code is called with startGame() and requires a new Game object to start. 
+- Created a Game object that contains a board, 2 Players, and their scores and times. When we implement the timer this is where it will go
+- Made some small changes to the GameBoardUI code to reflect the above. For example, to access the current board, call game.getGameBoard() instead of just board
+
+TODO:
+[ ] - I think we can save all the available moves is a list to prevent the constant nested for loops used in travering the board. Just a small optimization.
+[ ] - get pass and quit buttons to display proper UIs.
+[ ] - data layer
+

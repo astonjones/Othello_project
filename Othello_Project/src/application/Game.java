@@ -1,20 +1,36 @@
 package application;
+
+import javafx.stage.Stage;
+
 /**
  * 
  */
 public class Game
 {
-	int whiteScore;
-	int blackScore;
-	int whiteTime;
-	int blackTime;
+	private int whiteScore;
+	private int blackScore;
+	private int whiteTime;
+	private int blackTime;
 	
+	private Stage primaryStage;
+	private Player blackPlayer;
+	private Player whitePlayer;
+	private Board board;
 	/**
 	 * Default constructor
 	 */
-	public Game()
+	public Game(Stage primaryStage, Player p1, Player p2)
 	{
-		
+		this.primaryStage = primaryStage;
+		board = new Board();
+	}
+
+	public void setBoard(Board board){
+		this.board = board;
+	}
+
+	public Board getGameBoard() {
+		return this.board;
 	}
 	
 	public int getWhiteScore()
@@ -35,6 +51,11 @@ public class Game
 	public int getBlackTime()
 	{
 		return blackTime;
+	}
+
+	public Stage getStage()
+	{
+		return primaryStage;
 	}
 	
 }

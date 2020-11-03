@@ -38,32 +38,21 @@ public class Board
 	 */
 	public void moves()
 	{
-		// Find all tiles, black or white (1 or 2), opposite of turn
-		// If its black's turn find all white tiles. 
-		// per tile we must check N, NE, E, SE, S, SW, W, NW
-		// NE is opposite of SW, SE of NW. 
-
-
-		// ex BLACK Turn, so we are looking at white tile x. 
-		// if black tile is directly N of white, and South is free then South is valid move for black
-			// if black is directly <cardinal direction> and opposite direction is free then that direction is valid
-		// if white tile is North, recursivly check North until black tile OR out of bound. 
-			// if a black tile is discovered. go to original white tile, check south for empty space or out of bounds.
-				// if empty space, then it is a valid move
-		for(int i = 0; i<8; i++)
+		// iterate over the entire board
+		for(int row = 0; row<8; row++)
         {
-            for(int j = 0; j<8; j++)
+            for(int col = 0; col<8; col++)
             {
-                if(board[i][j] != 0)
+                if(board[row][col] != 0)
                 {
                     continue;
                 }
                 
-                boolean isValidMove= false;
+                boolean isValidMove = false;
                 
-                for(int k = 0; k<8; k++)
+                for(int k=0; k<8; k++)
                 {
-                	String direction = getDiscSequence(i, j, k);
+                	String direction = getDiscSequence(row, col, k);
                 	if(turn == 1 && direction.matches(pattern1) || turn == 2 && direction.matches(pattern2))
                     {
                         isValidMove = true;
@@ -71,7 +60,7 @@ public class Board
                 }
                 if(isValidMove)
                 {
-                	board[i][j] = VALID;
+                	board[row][col] = VALID;
                 }
             }
         }
@@ -82,9 +71,9 @@ public class Board
 	 * declares if a move is valid
 	 * args         x = row number, y = column number
 	 */
-	public boolean isMoveValid(int x, int y)
+	public boolean isMoveValid(int row, int col)
 	{
-		return board[x][y] == VALID;
+		return board[row][col] == VALID;
 	}
 	
 	/**
@@ -92,65 +81,65 @@ public class Board
 	 * args 		x = row number, y = column number
 	 * 				dir = cardinal direction, 0 = N, 1 = NE ... 7 = NW (clockwise)
 	 */
-	public String getDiscSequence(int x, int y, int dir)
+	public String getDiscSequence(int row, int col, int dir)
 	{
 		String s = "";
 		switch(dir)
 		{
-		case 0:
+		case 0: // North
 		{
-			while(x > 0)
+			while(row > 0)
 	        {
-	            s += board[--x][y];
+	            s += board[--row][col];
 	        }
 		} break;
-		case 1:
+		case 1: // North East
 		{
-			while(x > 0 && y < 7)
+			while(row > 0 && col < 7)
             {
-                s += board[--x][++y];
+                s += board[--row][++col];
             }
 		} break;
-		case 2:
+		case 2: // East
 		{
-			while(y < 7)
+			while(col < 7)
 	        {
-	            s += board[x][++y];
+	            s += board[row][++col];
 	        }
 		} break;
-		case 3:
+		case 3: // South East
 		{
-			while(x < 7 && y < 7)
+			while(row < 7 && col < 7)
 	        {
-	            s += board[++x][++y];
+	            s += board[++row][++col];
 	        }
 		} break;
-		case 4:
+		case 4: // South
 		{
-			while(x < 7)
+			while(row < 7)
 	        {
-	            s += board[++x][y];
+	            s += board[++row][col];
 	        }
 		} break;
-		case 5:
+		case 5: // South West
 		{
-			while(x < 7 && y > 0)
+			while(row < 7 && col > 0)
 	        {
-	            s += board[++x][--y];
+	            s += board[++row][--col];
 	        }
 		} break;
-		case 6:
+		case 6: // West
 		{
-			while(y > 0)
+			while(col > 0)
 	        {
-	            s += board[x][--y];
+	            s += board[row][--col];
 	        }
 		} break;
-		case 7:
+		case 7: // North West
 		{
-			while(x > 0 && y > 0)
+			while(row > 0 && col > 0)
 	        {
-	            s += board[--x][--y];
+	            s += board[--row][--col];
 	        }
 		} break;
 		}

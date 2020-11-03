@@ -20,20 +20,46 @@ import javafx.stage.Stage;
 
 public class Main extends Application
 {
+	public static ObservableList<Node> othello;
+	public static Board board;
+	public static ArrayList<Circle> discs = new ArrayList<Circle>();
 	
 	public static void main(String[] args)
 	{
 		launch(args);		
 	}
 	
-	public static ArrayList<Circle> getBoardPosition(Board board)
+	public static Rectangle cellFinder(int x, int y)
 	{
+		for(Node n : othello)
+		{
+			if(n instanceof Rectangle)
+			{
+				Rectangle r = (Rectangle)n;
+				if(r.getX() == 50*y + 150 && r.getY() == 50*x + 128)
+				{
+					othello.remove(n);
+					return r;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static void updateBoardPosition()
+	{
+		//remove all discs from the GUI, and forget all of them
+		othello.removeAll(discs);
+		discs.clear();
+		
+		//re-find every disc and potential move
 		int[][] grid = board.getBoard();
-		ArrayList<Circle> discs = new ArrayList<Circle>();
 		for(int i = 0; i<8; i++)
 		{
 			for(int j = 0; j<8; j++)
 			{
+				Rectangle r = cellFinder(i, j);
+				r.setFill(Color.GREEN);
 				if(grid[i][j] == 1 || grid[i][j] == 2)
 				{
 					Circle newDisc = new Circle(50*j + 175, 50*i + 153, 22);
@@ -48,15 +74,44 @@ public class Main extends Application
 					}
 					discs.add(newDisc);
 				}
+				if(grid[i][j] == 5)
+				{
+					r.setFill(Color.GOLD);
+				}
+				othello.add(r);
 			}
 		}
-		return discs;
+		
+		//put them back in the GUI
+		othello.addAll(discs);
+	}
+	
+	public static void showResult()
+	{
+		Text endOfGame = new Text("");
+		endOfGame.setLayoutX(240);
+		endOfGame.setLayoutY(580);
+		endOfGame.setFont(new Font("Arial Narrow", 24));
+		endOfGame.setFill(Color.WHITE);
+		
+		String endText = board.winner();
+		if(!board.resigned && board.getWhiteScore() + board.getBlackScore() < 64)
+		{
+			endOfGame.setText("Double Pass - Game Over.\n\t" + endText);
+		}
+		else
+		{
+			endOfGame.setText("     Game Over.\n" + endText);
+		}
+		othello.addAll(endOfGame);
 	}
 	
 	public void start(Stage primaryStage) throws InterruptedException
 	{
 		Pane rootPane = new Pane();
 		rootPane.setStyle("-fx-background-color:#520100;");
+		
+		othello = rootPane.getChildren();
 		
 		Rectangle P1 = new Rectangle(900,128,200,150);
 		P1.setStroke(Color.BLACK);
@@ -366,8 +421,6 @@ public class Main extends Application
 		discs.add(black);
 		*/
 		
-		
-		
 		Rectangle boardBorder = new Rectangle(140,118,420,420);
 		boardBorder.setStroke(Color.BLACK);
 		boardBorder.setFill(Color.BLACK);	
@@ -407,8 +460,6 @@ public class Main extends Application
 		P2S.setLayoutY(518);
 		P2S.setFont(new Font("Arial Narrow", 30));
 		
-		ObservableList<Node> othello = rootPane.getChildren();
-		
 		othello.addAll(boardBorder,P1Border,P1,P2,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
 		
 		Rectangle[][] tiles = new Rectangle[8][8];
@@ -423,9 +474,7 @@ public class Main extends Application
 			}
 		}
 		
-		Board board = new Board();
-		
-		ArrayList<Circle> discs = getBoardPosition(board);
+		board = new Board();
 		
 		for(Rectangle[] r : tiles)
 		{
@@ -434,8 +483,6 @@ public class Main extends Application
 				othello.add(r2);
 			}
 		}
-		
-		othello.addAll(discs);
 		
 		Button pass = new Button("Pass");
 		Button quit = new Button("QUIT");
@@ -451,14 +498,49 @@ public class Main extends Application
 			{
 				if(board.mustPass())
 				{
-					board.changeTurn();
+					if(board.justPassed) //double pass
+					{
+						showResult();
+					}
+					else
+					{
+						board.justPassed = true;
+						board.changeTurn();
+						updateBoardPosition();
+						if(othello.contains(P2Border))
+						{
+							othello.remove(P2Border);
+							othello.add(P1Border);
+							P1Border.toBack();
+						}
+						else
+						{
+							othello.remove(P1Border);
+							othello.add(P2Border);
+							P2Border.toBack();
+						}
+					}
 				}
+			}
+		};
+		
+		EventHandler<ActionEvent> resignation = new EventHandler<ActionEvent>()
+		{
+			public void handle(ActionEvent e)
+			{
+				board.resigned = true;
+				rootPane.setOnMouseClicked(null);
+				showResult();
 			}
 		};
 		
 		pass.setOnAction(whenPass);
 		
-		rootPane.getChildren().addAll(pass, quit);
+		quit.setOnAction(resignation);
+		
+		othello.addAll(pass, quit);
+		
+		updateBoardPosition();
 		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
@@ -478,10 +560,9 @@ public class Main extends Application
 				{
 					return;
 				}
+				board.justPassed = false;
 				board.placeDisc(r, c);
-				ObservableList<Node> othello = rootPane.getChildren();
-				othello.removeAll(discs);
-				othello.addAll(getBoardPosition(board));
+				updateBoardPosition();
 				if(othello.contains(P2Border))
 				{
 					othello.remove(P2Border);
@@ -498,6 +579,10 @@ public class Main extends Application
 				int whiteScore = board.getWhiteScore();
 				P1S.setText(""+blackScore);
 				P2S.setText(""+whiteScore);
+				if(blackScore+whiteScore == 64)
+				{
+					showResult();
+				}
 			}
 		});
 	}

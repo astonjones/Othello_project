@@ -13,6 +13,10 @@ public class Board
 	
 	public int turn = 1; //flag that represents whose turn it is
 	
+	public boolean justPassed = false; //marks if the previous move was a pass. used for detecting a double pass
+	
+	public boolean resigned = false; //if someone hits Quit, turn this true
+	
 	String pattern1 = "[2]+1.*";//Strings for checking disc sequences
     String pattern2 = "[1]+2.*";
 	
@@ -277,5 +281,27 @@ public class Board
 	public boolean mustPass()
 	{
 		return getValidSquares() == 0;
+	}
+	
+	public boolean isTied()
+	{
+		return getWhiteScore() == getBlackScore();
+	}
+	
+	public String winner()
+	{
+		if(resigned)
+		{
+			return (turn == 1 ? "White is victorious." : "Black is victorious.");
+		}
+		if(isTied())
+		{
+			return "Draw.";
+		}
+		if(getWhiteScore() > getBlackScore())
+		{
+			return "White is victorious.";
+		}
+		return "Black is victorious.";
 	}
 }

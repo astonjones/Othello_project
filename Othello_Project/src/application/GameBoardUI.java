@@ -126,12 +126,30 @@ public class GameBoardUI {
 		}
 		
 		Button pass = new Button("Pass");
-		Button quit = new Button("QUIT");
+		Button quit = new Button("Quit");
+		Button records = new Button("Records");
+		Button loginp1 = new Button("Login");
+		Button loginp2 = new Button("Login");
+		Button rules = new Button("Time Limit");
+		
 		pass.setLayoutX(900);
 		pass.setLayoutY(300);
 		
 		quit.setLayoutX(1057);
 		quit.setLayoutY(300);
+		
+		records.setLayoutX(1042);
+		records.setLayoutY(518);
+		
+		loginp1.setLayoutX(975);
+		loginp1.setLayoutY(300);
+		
+		loginp2.setLayoutX(982);
+		loginp2.setLayoutY(518);
+		
+		rules.setLayoutX(900);
+		rules.setLayoutY(518);
+		
 		
 		EventHandler<ActionEvent> whenPass = new EventHandler<ActionEvent>()
 		{
@@ -179,7 +197,7 @@ public class GameBoardUI {
 		
 		quit.setOnAction(resignation);
 		
-		othello.addAll(pass, quit);
+		othello.addAll(pass, quit, rules, records, loginp1, loginp2);
 		
 		updateBoardPosition();
 		

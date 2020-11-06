@@ -4,13 +4,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameTimer {
-	static int interval;
+	static int interval = 60; //default setting is 1 minute
 	static Timer timer;
-    static int delay = 1000; //delay is milliseconds before task is to be executed
-    static int period = 1000; //period is time in milliseconds between successive task executions
+    static final int delay = 1000; //delay is milliseconds before task is to be executed
+    static final int period = 1000; //period is time in milliseconds between successive task executions
+    
+    public GameTimer() {
+    	
+    }
 	
-	private void startTimer()
+	public void startTimer()
 	{
+		System.out.print("Game started");
 	    timer = new Timer();
 	    System.out.println(interval);
 	    timer.scheduleAtFixedRate(new TimerTask() {

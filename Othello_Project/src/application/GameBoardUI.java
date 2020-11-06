@@ -20,6 +20,8 @@ import javafx.scene.text.Text;
  * 
  */
 public class GameBoardUI {
+	
+	static GameTimer timer = new GameTimer(); //game timer initiated
 
 	public static ObservableList<Node> othello;
 	public static ArrayList<Circle> discs = new ArrayList<Circle>();
@@ -188,6 +190,7 @@ public class GameBoardUI {
 		this.game.getStage().setTitle("OthelloV4");
 		this.game.getStage().setScene(scene);
 		this.game.getStage().show();
+		timer.startTimer();
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
@@ -226,6 +229,8 @@ public class GameBoardUI {
 				}
 			}
 		});
+		timer.startTimer();
+		System.out.println("This is appearing");
 	}
 
 	/**

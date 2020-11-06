@@ -203,7 +203,7 @@ public class GameBoardUI {
 		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
-		this.game.getStage().setTitle("OthelloV4");
+		this.game.getStage().setTitle("Othello");
 		this.game.getStage().setScene(scene);
 		this.game.getStage().show();
 		

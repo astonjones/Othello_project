@@ -21,6 +21,14 @@ import javafx.scene.text.Text;
  * 
  */
 public class GameBoardUI {
+	
+	//Textfield objects
+	static TextField P1Timer = new TextField();
+	static TextField P2Timer = new TextField();
+	
+	// Timer objects initiated
+	static GameTimer blackTimer = new GameTimer(P1Timer);
+	static GameTimer whiteTimer = new GameTimer(P2Timer);
 
 	public static ObservableList<Node> othello;
 	public static ArrayList<Circle> discs = new ArrayList<Circle>();

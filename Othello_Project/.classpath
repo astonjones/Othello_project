@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javaFX"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFx"/>
 	<classpathentry exported="true" kind="lib" path="/home/rc/.local/share/javafx-sdk-11.0.2/lib/javafx.base.jar"/>
 	<classpathentry exported="true" kind="lib" path="/home/rc/.local/share/javafx-sdk-11.0.2/lib/javafx.graphics.jar"/>
 	<classpathentry exported="true" kind="lib" path="/home/rc/.local/share/javafx-sdk-11.0.2/lib/javafx.controls.jar"/>

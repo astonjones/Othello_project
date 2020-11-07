@@ -1,13 +1,14 @@
 package application;
 
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -203,9 +204,10 @@ public class GameBoardUI {
 		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
-		this.game.getStage().setTitle("Othello");
-		this.game.getStage().setScene(scene);
-		this.game.getStage().show();
+		game.getStage().setTitle("Othello");
+		game.getStage().setScene(scene);
+		game.getStage().getIcons().add(new Image("file:icon.PNG"));
+		game.getStage().show();
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
@@ -215,7 +217,7 @@ public class GameBoardUI {
 				int r = ((int)event.getY()-128)/50;
 				int c = ((int)event.getX()-150)/50;
 				System.out.println(r+" "+c);
-				if(r < 0 || c < 0 || r > 7 || c > 7 || !game.getGameBoard().isMoveValid(r, c))
+				if(!game.getGameBoard().isMoveValid(r, c))
 				{
 					return;
 				}

@@ -73,6 +73,10 @@ public class Board
 	 */
 	public boolean isMoveValid(int row, int col)
 	{
+		if(row < 0 || col < 0 || row > 7 || col > 7)
+		{
+			return false;
+		}
 		return board[row][col] == VALID;
 	}
 	

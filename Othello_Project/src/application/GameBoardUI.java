@@ -21,7 +21,11 @@ import javafx.scene.text.Text;
  */
 public class GameBoardUI {
 	
-	static GameTimer timer = new GameTimer(); //game timer initiated
+	//Textfield objects
+	static TextField P1Timer = new TextField();
+	static TextField P2Timer = new TextField();
+	static GameTimer blackTimer = new GameTimer(P1Timer); //game timer initiated
+	static GameTimer whiteTimer = new GameTimer(P2Timer); //game timer for player 2
 
 	public static ObservableList<Node> othello;
 	public static ArrayList<Circle> discs = new ArrayList<Circle>();
@@ -80,7 +84,8 @@ public class GameBoardUI {
 		P1Name.setLayoutX(924);
 		P1Name.setLayoutY(160);
 		
-		TextField P1Timer = new TextField("1:30");
+		//Need to change the textfield to accept the string value of timer
+
 		P1Timer.setLayoutX(924);
 		P1Timer.setLayoutY(220);
 		
@@ -88,7 +93,8 @@ public class GameBoardUI {
 		P2Name.setLayoutX(924);
 		P2Name.setLayoutY(380);
 		
-		TextField P2Timer = new TextField("1:30");
+		//Need to change the textfield to accept the string value of timer
+
 		P2Timer.setLayoutX(924);
 		P2Timer.setLayoutY(440);
 		
@@ -190,7 +196,7 @@ public class GameBoardUI {
 		this.game.getStage().setTitle("OthelloV4");
 		this.game.getStage().setScene(scene);
 		this.game.getStage().show();
-		timer.startTimer();
+		blackTimer.startTimer(); //Start Timer for black(Player 1) here
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
@@ -212,12 +218,26 @@ public class GameBoardUI {
 					othello.remove(P2Border);
 					othello.add(P1Border);
 					P1Border.toBack();
+					
+					//Stop player white timer.
+					whiteTimer.stopTimer();
+					
+					//Timer starts for player black
+					blackTimer.startTimer();
+					
 				}
 				else
 				{
 					othello.remove(P1Border);
 					othello.add(P2Border);
 					P2Border.toBack();
+					
+					//Stop black timer
+					blackTimer.stopTimer();
+					
+					//Timer starts for player white
+					whiteTimer.startTimer();
+					
 				}
 				int blackScore = game.getGameBoard().getBlackScore();
 				int whiteScore = game.getGameBoard().getWhiteScore();
@@ -229,8 +249,10 @@ public class GameBoardUI {
 				}
 			}
 		});
-		timer.startTimer();
-		System.out.println("This is appearing");
+	}
+	
+	public void updateTimerText() {
+		
 	}
 
 	/**
@@ -253,7 +275,6 @@ public class GameBoardUI {
 	public void selectSpace() {
 		// TODO implement here
 	}
-
 
 		
 	public static Rectangle cellFinder(int x, int y)

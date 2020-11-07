@@ -10,7 +10,7 @@ public class GameUI extends Application {
 
 	public static void main(String[] args)
 	{
-		launch(args);		
+		launch(args);
 	}
 
 	@Override

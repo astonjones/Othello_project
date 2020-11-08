@@ -76,10 +76,14 @@ public class GameBoardUI {
 		Rectangle P1Score = new Rectangle(600,118,100,210);
 		P1Score.setStroke(Color.BLACK);
 		P1Score.setFill(Color.BLACK);
+		P1Score.setArcHeight(20);
+		P1Score.setArcWidth(20);
 		
 		Rectangle P2Score = new Rectangle(600,328,100,210);
 		P2Score.setStroke(Color.BLACK);
 		P2Score.setFill(Color.WHITE);
+		P2Score.setArcHeight(20);
+		P2Score.setArcWidth(20);
 		
 		TextField P1Name = new TextField("Black");
 		P1Name.setLayoutX(924);
@@ -96,14 +100,14 @@ public class GameBoardUI {
 		P2Timer.setLayoutY(440);
 		
 		Text P1S = new Text("2");
-		P1S.setLayoutX(650);
+		P1S.setLayoutX(645);
 		P1S.setLayoutY(308);
 		P1S.setFont(new Font("Arial Narrow", 30));
 		P1S.setFill(Color.WHITE);
 		
 		Text P2S = new Text("2");
-		P2S.setLayoutX(650);
-		P2S.setLayoutY(518);
+		P2S.setLayoutX(645);
+		P2S.setLayoutY(358);
 		P2S.setFont(new Font("Arial Narrow", 30));
 		
 		othello.addAll(boardBorder,P1Border,P1,P2,P1Score,P2Score,P1S,P2S,P1Name,P1Timer,P2Name,P2Timer);
@@ -256,11 +260,38 @@ public class GameBoardUI {
 				int blackScore = game.getGameBoard().getBlackScore();
 				int whiteScore = game.getGameBoard().getWhiteScore();
 				P1S.setText(""+blackScore);
+				if(blackScore > 9)
+				{
+					P1S.setLayoutX(640);
+				}
+				else
+				{
+					P1S.setLayoutX(645);
+				}
 				P2S.setText(""+whiteScore);
+				if(whiteScore > 9)
+				{
+					P2S.setLayoutX(640);
+				}
+				else
+				{
+					P2S.setLayoutX(645);
+				}
 				if(blackScore+whiteScore == 64)
 				{
 					showResult();
 				}
+				double total = blackScore + whiteScore;
+				
+				double blackLevel = 420*blackScore/total;
+				P1Score.setHeight(blackLevel);
+				P1S.setLayoutY(blackLevel+98);
+				
+				double whiteLevel = 420*(1-whiteScore/total) + 118;
+				P2Score.setY(whiteLevel);
+				P2Score.setHeight(538-whiteLevel);
+				P2S.setLayoutY(whiteLevel+30);
+				
 			}
 		});
 	}

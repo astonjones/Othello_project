@@ -7,25 +7,26 @@ import javafx.scene.text.Text;
 
 public class GameTimer {
 	static int initialInterval = 10;
-	static int interval = initialInterval; //default setting is 1 minute
+	static int interval = initialInterval;
 	static Timer timer;
     static final int delay = 1000; //delay is milliseconds before task is to be executed
     static final int period = 1000; //period is time in milliseconds between successive task executions
     TextField text; //update the GUI
+    Game game;
     
-    public GameTimer(TextField text) {
+    public GameTimer(TextField text, Game game) {
     	this.text = text;
+    	this.game = game;
     }
 	
 	public void startTimer()
 	{
 	    timer = new Timer();
 	    updateText();
-	    System.out.println(interval);
 	    timer.scheduleAtFixedRate(new TimerTask() {
 
 	        public void run() {
-	            System.out.println(countdown());
+	            countdown();
 	            updateText();
 	        }
 	    }, delay, period);
@@ -36,10 +37,10 @@ public class GameTimer {
 	    if (interval == 0)
 	    {
 	        timer.cancel();
-	        System.out.println("Opposing player wins");
+	        // Insert gameEnd here...
+	        System.out.println("Timer out!");
 	    }
 	    --interval;
-	    // insert method to change textfield...
 	    return String.valueOf(interval);
 	}
 	
@@ -66,4 +67,5 @@ public class GameTimer {
 	public void updateText() {
 		text.setText(getTimer());
 	}
+	
 }

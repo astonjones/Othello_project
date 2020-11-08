@@ -21,20 +21,19 @@ import javafx.scene.text.Text;
  * 
  */
 public class GameBoardUI {
-	
+	// board is now included in the game object
+	public static Game game;
+
+	public static ObservableList<Node> othello;
+	public static ArrayList<Circle> discs = new ArrayList<Circle>();
+
 	//Textfield objects
 	static TextField P1Timer = new TextField();
 	static TextField P2Timer = new TextField();
 	
-	// Timer objects initiated
-	static GameTimer blackTimer = new GameTimer(P1Timer);
-	static GameTimer whiteTimer = new GameTimer(P2Timer);
-
-	public static ObservableList<Node> othello;
-	public static ArrayList<Circle> discs = new ArrayList<Circle>();
-	// board is now included in the game object
-	public static Game game;
-
+	static GameTimer whiteTimer = new GameTimer(P2Timer, game);
+	static GameTimer blackTimer = new GameTimer(P1Timer, game);
+	
 	/**
 	 * Default constructor
 	 */
@@ -43,13 +42,12 @@ public class GameBoardUI {
 		this.game = game;
 	}
 
-
-
 	/**
 	 * draws the game board UI
 	 * 
 	 */
 	public void startGame() {
+		
 		Pane rootPane = new Pane();
 		rootPane.setStyle("-fx-background-color:#520100;");
 		
@@ -87,7 +85,6 @@ public class GameBoardUI {
 		P1Name.setLayoutX(924);
 		P1Name.setLayoutY(160);
 		
-		TextField P1Timer = new TextField("1:30");
 		P1Timer.setLayoutX(924);
 		P1Timer.setLayoutY(220);
 		
@@ -95,7 +92,6 @@ public class GameBoardUI {
 		P2Name.setLayoutX(924);
 		P2Name.setLayoutY(380);
 		
-		TextField P2Timer = new TextField("1:30");
 		P2Timer.setLayoutX(924);
 		P2Timer.setLayoutY(440);
 		
@@ -216,6 +212,7 @@ public class GameBoardUI {
 		game.getStage().setScene(scene);
 		game.getStage().getIcons().add(new Image("file:icon.PNG"));
 		game.getStage().show();
+		blackTimer.startTimer(); //Start Timer for black(Player 1) here
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
@@ -237,12 +234,24 @@ public class GameBoardUI {
 					othello.remove(P2Border);
 					othello.add(P1Border);
 					P1Border.toBack();
+					
+					//Stop player white timer.
+					whiteTimer.stopTimer();
+					
+					//Timer starts for player black
+					blackTimer.startTimer();
 				}
 				else
 				{
 					othello.remove(P1Border);
 					othello.add(P2Border);
 					P2Border.toBack();
+					
+					//Stop black timer
+					blackTimer.stopTimer();
+					
+					//Timer starts for player white
+					whiteTimer.startTimer();
 				}
 				int blackScore = game.getGameBoard().getBlackScore();
 				int whiteScore = game.getGameBoard().getWhiteScore();

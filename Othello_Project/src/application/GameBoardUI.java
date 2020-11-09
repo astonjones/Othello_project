@@ -56,22 +56,32 @@ public class GameBoardUI {
 		Rectangle P1 = new Rectangle(900,128,200,150);
 		P1.setStroke(Color.BLACK);
 		P1.setFill(Color.BLACK);
+		P1.setArcHeight(20);
+		P1.setArcWidth(20);
 		
 		Rectangle P1Border = new Rectangle(890,118,220,170);
 		P1Border.setStroke(Color.YELLOW);
 		P1Border.setFill(Color.YELLOW);
+		P1Border.setArcHeight(20);
+		P1Border.setArcWidth(20);
 	
 		Rectangle P2 = new Rectangle(900,348,200,150);
 		P2.setStroke(Color.BLACK);
 		P2.setFill(Color.WHITE);
+		P2.setArcHeight(20);
+		P2.setArcWidth(20);
 		
 		Rectangle P2Border = new Rectangle(890,338,220,170);
 		P2Border.setStroke(Color.YELLOW);
 		P2Border.setFill(Color.YELLOW);
+		P2Border.setArcHeight(20);
+		P2Border.setArcWidth(20);
 		
 		Rectangle boardBorder = new Rectangle(140,118,420,420);
 		boardBorder.setStroke(Color.BLACK);
 		boardBorder.setFill(Color.BLACK);	
+		boardBorder.setArcHeight(20);
+		boardBorder.setArcWidth(20);
 		
 		Rectangle P1Score = new Rectangle(600,118,100,210);
 		P1Score.setStroke(Color.BLACK);

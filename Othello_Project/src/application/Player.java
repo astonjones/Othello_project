@@ -1,5 +1,6 @@
 package application;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Custom player object
@@ -19,7 +20,7 @@ public class Player implements java.io.Serializable
 	/**
 	 * Construct a new player or load the existing player
 	 */
-	public Player(String name, String pass) throws PasswordException{
+	public Player (String name, String pass) throws PasswordException{
 
         // if player exists then load it
         if (isSavedPlayer(name)) {
@@ -38,15 +39,51 @@ public class Player implements java.io.Serializable
             this.savePlayer();
         }
     
-    }
-    
+	}
+	
+	/**
+	* Provide an array list of all players and their win/loss record
+	* @return	ArrayList<String> a list of player data
+	*/
+   public ArrayList<String> getPlayerRecords(){
+	   ArrayList<String> records = new ArrayList<>();
+	   File dir = new File("data/");
+	   File[] fileList = dir.listFiles();
+
+	   // for every file in data/, retreive each playername, wins, losses, write to arraylist
+	   for (int i = 0; i < fileList.length; i++) {
+		   if (fileList[i].isFile()) {
+			   try {
+				   FileInputStream playerFile = new FileInputStream(fileList[i]);
+				   ObjectInputStream playerObj = new ObjectInputStream(playerFile);
+	   
+				   // create a temporary player to hold the loaded data
+				   Player temp = (Player) playerObj.readObject();
+				   String tempRecord = temp.getName() + ": " + temp.getWins() + ", " + temp.getLosses();
+				   System.out.println(tempRecord);
+				   records.add(tempRecord);
+	   
+				   playerObj.close();
+				   playerFile.close();
+				   
+				   
+			   } catch (IOException e){
+				   e.printStackTrace();
+			   } catch (ClassNotFoundException c) {
+				   c.printStackTrace();
+			   }
+		   }
+	   }
+	   
+	   return records;
+   }
 
     /**
      * Is the player new or returning
      * args     name    the players name
-     * returns  boolean true if the player data exists, false otherwise
+     * @return  boolean true if the player data exists, false otherwise
      */
-	public boolean isSavedPlayer(String name) {
+	public boolean isSavedPlayer (String name) {
 
         // check if file equal to name.ser exists
         File check = new File("data/" + name + ".ser");
@@ -60,7 +97,7 @@ public class Player implements java.io.Serializable
      * args     pass    the players password for verificaiton
      * throws   PasswordException
      */
-    private void loadPlayer(String name, String pass) throws PasswordException {
+    private void loadPlayer (String name, String pass) throws PasswordException {
 
         try {
             FileInputStream playerFile = new FileInputStream("data/" + name + ".ser");
@@ -85,16 +122,16 @@ public class Player implements java.io.Serializable
             }
             
         } catch (IOException i){
-            System.out.println("IOException");
+            i.printStackTrace();
         } catch (ClassNotFoundException c) {
-            System.out.println("Player Class not found.");
+            c.printStackTrace();
         }
 
     }
 
     
     /**
-     * Serialize a new player object
+     * Serialize the Player object
      */
 	private void savePlayer() {
 		try {
@@ -108,6 +145,19 @@ public class Player implements java.io.Serializable
 		} catch (IOException execption) {
 			execption.printStackTrace();
 		}
+	}
+	
+	/**
+     * Add 1 win or 1 lose to a player's record
+     * args     boolean    true if player won, false otherwise
+     */
+	public void updateRecord(boolean didWin) {
+        if (didWin) {
+            this.wins++;
+        } else {
+            this.losses++;
+        }
+        savePlayer();
     }
 	
 	public String getName() {

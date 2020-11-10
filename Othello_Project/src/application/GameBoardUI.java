@@ -23,6 +23,8 @@ import javafx.scene.text.Text;
 public class GameBoardUI {
 	// board is now included in the game object
 	public static Game game;
+	static GameTimer blackTimer;
+	static GameTimer whiteTimer;
 
 	public static ObservableList<Node> othello;
 	public static ArrayList<Circle> discs = new ArrayList<Circle>();
@@ -31,15 +33,14 @@ public class GameBoardUI {
 	static TextField P1Timer = new TextField();
 	static TextField P2Timer = new TextField();
 	
-	static GameTimer whiteTimer = new GameTimer(P2Timer, game);
-	static GameTimer blackTimer = new GameTimer(P1Timer, game);
-	
 	/**
 	 * Default constructor
 	 */
 	public GameBoardUI(Game game)
 	{
 		this.game = game;
+		this.blackTimer = new GameTimer(P1Timer, game);
+		this.whiteTimer = new GameTimer(P2Timer, game);
 	}
 
 	/**
@@ -226,82 +227,89 @@ public class GameBoardUI {
 		game.getStage().setScene(scene);
 		game.getStage().getIcons().add(new Image("file:icon.PNG"));
 		game.getStage().show();
-		blackTimer.startTimer(); //Start Timer for black(Player 1) here
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
 			@Override
 			public void handle(MouseEvent event)
 			{
-				int r = ((int)event.getY()-128)/50;
-				int c = ((int)event.getX()-150)/50;
-				System.out.println(r+" "+c);
-				if(!game.getGameBoard().isMoveValid(r, c))
-				{
-					return;
-				}
-				game.getGameBoard().justPassed = false;
-				game.getGameBoard().placeDisc(r, c);
-				updateBoardPosition();
-				if(othello.contains(P2Border))
-				{
-					othello.remove(P2Border);
-					othello.add(P1Border);
-					P1Border.toBack();
-					
-					//Stop player white timer.
-					whiteTimer.stopTimer();
-					
-					//Timer starts for player black
-					blackTimer.startTimer();
-				}
-				else
-				{
-					othello.remove(P1Border);
-					othello.add(P2Border);
-					P2Border.toBack();
-					
-					//Stop black timer
-					blackTimer.stopTimer();
-					
-					//Timer starts for player white
-					whiteTimer.startTimer();
-				}
-				int blackScore = game.getGameBoard().getBlackScore();
-				int whiteScore = game.getGameBoard().getWhiteScore();
-				P1S.setText(""+blackScore);
-				if(blackScore > 9)
-				{
-					P1S.setLayoutX(640);
-				}
-				else
-				{
-					P1S.setLayoutX(645);
-				}
-				P2S.setText(""+whiteScore);
-				if(whiteScore > 9)
-				{
-					P2S.setLayoutX(640);
-				}
-				else
-				{
-					P2S.setLayoutX(645);
-				}
-				if(blackScore+whiteScore == 64)
-				{
+				if(game.getGameBoard().timeUp) {
+					rootPane.setOnMouseClicked(null);
 					showResult();
+				} else {
+					int r = ((int)event.getY()-128)/50;
+					int c = ((int)event.getX()-150)/50;
+					System.out.println(r+" "+c);
+					if(!game.getGameBoard().isMoveValid(r, c))
+					{
+						return;
+					}
+					game.getGameBoard().justPassed = false;
+					game.getGameBoard().placeDisc(r, c);
+					
+					if(blackTimer.isRunning() || whiteTimer.isRunning())
+						blackTimer.startTimer();
+						
+					updateBoardPosition();
+					if(othello.contains(P2Border))
+					{
+						othello.remove(P2Border);
+						othello.add(P1Border);
+						P1Border.toBack();
+						
+						//Stop player white timer.
+						whiteTimer.stop();
+						
+						//Timer starts for player black
+						blackTimer.startTimer();
+					}
+					else
+					{
+						othello.remove(P1Border);
+						othello.add(P2Border);
+						P2Border.toBack();
+						
+						//Stop black timer
+						blackTimer.stop();
+						
+						//Timer starts for player white
+						whiteTimer.startTimer();
+					}
+					int blackScore = game.getGameBoard().getBlackScore();
+					int whiteScore = game.getGameBoard().getWhiteScore();
+					P1S.setText(""+blackScore);
+					if(blackScore > 9)
+					{
+						P1S.setLayoutX(640);
+					}
+					else
+					{
+						P1S.setLayoutX(645);
+					}
+					P2S.setText(""+whiteScore);
+					if(whiteScore > 9)
+					{
+						P2S.setLayoutX(640);
+					}
+					else
+					{
+						P2S.setLayoutX(645);
+					}
+					if(blackScore+whiteScore == 64)
+					{
+						showResult();
+					}
+					double total = blackScore + whiteScore;
+					
+					double blackLevel = 420*blackScore/total;
+					P1Score.setHeight(blackLevel);
+					P1S.setLayoutY(blackLevel+98);
+					
+					double whiteLevel = 420*(1-whiteScore/total) + 118;
+					P2Score.setY(whiteLevel);
+					P2Score.setHeight(538-whiteLevel);
+					P2S.setLayoutY(whiteLevel+30);
 				}
-				double total = blackScore + whiteScore;
-				
-				double blackLevel = 420*blackScore/total;
-				P1Score.setHeight(blackLevel);
-				P1S.setLayoutY(blackLevel+98);
-				
-				double whiteLevel = 420*(1-whiteScore/total) + 118;
-				P2Score.setY(whiteLevel);
-				P2Score.setHeight(538-whiteLevel);
-				P2S.setLayoutY(whiteLevel+30);
-				
 			}
 		});
 	}
@@ -395,7 +403,10 @@ public class GameBoardUI {
 		endOfGame.setFill(Color.WHITE);
 		
 		String endText = game.getGameBoard().winner();
-		if(!game.getGameBoard().resigned && game.getGameBoard().getWhiteScore() + game.getGameBoard().getBlackScore() < 64)
+		if(game.getGameBoard().timeUp) {
+			endOfGame.setText("Time is Up  -   Game Over.\n" + endText);
+		}
+		else if(!game.getGameBoard().resigned && game.getGameBoard().getWhiteScore() + game.getGameBoard().getBlackScore() < 64)
 		{
 			endOfGame.setText("Double Pass - Game Over.\n\t" + endText);
 		}

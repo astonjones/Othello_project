@@ -17,6 +17,8 @@ public class Board
 	
 	public boolean resigned = false; //if someone hits Quit, turn this true
 	
+	public boolean timeUp = false;
+	
 	String pattern1 = "[2]+1.*";//Strings for checking disc sequences
     String pattern2 = "[1]+2.*";
 	

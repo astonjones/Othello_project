@@ -3,7 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/**
+/** Original GUI created by Jason McElwee, restructured for game integration by Ryan Campbell
  *  Starting point of the othello game. 
  */
 public class GameUI extends Application {

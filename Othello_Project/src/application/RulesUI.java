@@ -27,12 +27,15 @@ GameTimer timer2;
 	
 	public void openUI() {
         Label titleLabel = new Label("Change the amount of time each player has in the game.");
+	titleLabel.setTextFill(Color.WHITE);
         Label subLabel = new Label("Please input in seconds");
+	subLabel.setTextFill(Color.WHITE);
         Button submit = new Button("Submit");
         submit.setOnAction(setTimer);
         
         VBox vBox = new VBox(15);
         vBox.setPadding(new Insets(10, 10, 10, 10));
+	vBox.setStyle("-fx-background-color:#520100;");
         vBox.getChildren().addAll(titleLabel, subLabel, textfield, submit);
    	 
         StackPane secondaryLayout = new StackPane();

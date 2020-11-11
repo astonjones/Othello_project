@@ -17,8 +17,7 @@ public class MainUI extends Application {
 
 	public static void main(String[] args)
 	{
-		launch(args);
-		//launch(args);		
+		launch(args);	
 	}
 
 	private StackPane mainPane = new StackPane();
@@ -50,16 +49,18 @@ public class MainUI extends Application {
 		Stage secondaryStage = new Stage();
 
 	    // let player 1 login
+		Player p1 = null;
         loginP1.setOnAction(actionEvent-> {
 			LoginUI loginUI = new LoginUI();
-			Player p1 = loginUI.initializeUI(secondaryStage);
+			p1 = loginUI.initializeUI(secondaryStage);
 			// TODO: display player 1 logged in
 		});
 
 		// let player 2 login
+        Player p2 = null;
 		loginP2.setOnAction(actionEvent-> {
 			LoginUI loginUI = new LoginUI();
-			Player p2 = loginUI.initializeUI(secondaryStage);
+			p2 = loginUI.initializeUI(secondaryStage);
 			// TODO display player 2 logged in
 		});
 

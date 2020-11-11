@@ -96,14 +96,14 @@ public class GameBoardUI {
 		P2Score.setArcHeight(20);
 		P2Score.setArcWidth(20);
 		
-		TextField P1Name = new TextField("Black");
+		TextField P1Name = new TextField(game.getBlackName());
 		P1Name.setLayoutX(924);
 		P1Name.setLayoutY(160);
 		
 		P1Timer.setLayoutX(924);
 		P1Timer.setLayoutY(220);
 		
-		TextField P2Name = new TextField("White");
+		TextField P2Name = new TextField(game.getWhiteName());
 		P2Name.setLayoutX(924);
 		P2Name.setLayoutY(380);
 		

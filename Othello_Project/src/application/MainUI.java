@@ -4,9 +4,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 
 /** Original GUI created by Jason McElwee, restructured for game integration by Ryan Campbell. Further edits done by entire team.
@@ -19,14 +23,17 @@ public class MainUI extends Application {
 	{
 		launch(args);	
 	}
-
-	private StackPane mainPane = new StackPane();
+ 
+	Game game;
 
 	@Override
-	public void start(Stage primaryStage) throws InterruptedException, PasswordException
+	public void start(Stage primaryStage) throws InterruptedException
 	{
 
+		game = new Game(primaryStage);
+
 		// setup UI
+		StackPane mainPane = new StackPane();
         VBox vBox = new VBox();
         vBox.setSpacing(8);
 		vBox.setPadding(new Insets(10,10,10,10));
@@ -49,24 +56,17 @@ public class MainUI extends Application {
 		Stage secondaryStage = new Stage();
 
 	    // let player 1 login
-		Player p1 = null;
         loginP1.setOnAction(actionEvent-> {
-			LoginUI loginUI = new LoginUI();
-			p1 = loginUI.initializeUI(secondaryStage);
-			// TODO: display player 1 logged in
+			startLoginUI(secondaryStage);
 		});
 
 		// let player 2 login
-        Player p2 = null;
 		loginP2.setOnAction(actionEvent-> {
-			LoginUI loginUI = new LoginUI();
-			p2 = loginUI.initializeUI(secondaryStage);
-			// TODO display player 2 logged in
+			startLoginUI(secondaryStage);
 		});
 
 		// Play the game iff two players have logged in
 		playGame.setOnAction(actionEvent-> {
-			Game game = new Game(secondaryStage, p1, p2);
 			GameBoardUI gbUI = new GameBoardUI(game);
 			gbUI.startGame();
 		});
@@ -88,6 +88,56 @@ public class MainUI extends Application {
 		primaryStage.show();
 		primaryStage.setAlwaysOnTop(true);
 
+	}
 
+	/**
+	 * UI for logging into a game
+	 * @param loginStage
+	 */
+
+	public void startLoginUI(Stage loginStage) {
+
+		StackPane loginPane = new StackPane();
+		// setup UI
+        // Button button = new Button("OPEN");
+        VBox vBox = new VBox();
+
+        vBox.setSpacing(8);
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+
+        Label username = new Label("Username");
+        username.setTextFill(Color.WHITE);
+        TextField userField = new TextField();
+
+        Label password = new Label("Password");
+        password.setTextFill(Color.WHITE);
+        PasswordField passField = new PasswordField();
+
+        Button login = new Button("Login");
+
+        vBox.getChildren().addAll(username, userField, password, passField, login);
+        loginPane.getChildren().addAll(vBox);
+
+        // gives button purpose
+        login.setOnAction(actionEvent -> {
+            try {
+                Player player = new Player(userField.getText(), passField.getText());
+				System.out.println("Login Successs.");
+				game.addPlayer(player);
+                loginStage.close();
+            } catch (PasswordException e) {
+                // If the exception 
+                System.out.println("Incorrect Password.");
+                // TODO: popup message for incorrect password
+            }
+        });
+        
+        // starts the UI
+		loginPane.setStyle("-fx-background-color:#520100;");
+		Scene loginScene = new Scene(loginPane,300,200);
+		loginStage.setTitle("Login");
+		loginStage.setScene(loginScene);
+		loginStage.show();
+		loginStage.setAlwaysOnTop(true);
 	}
 }

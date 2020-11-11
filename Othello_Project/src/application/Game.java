@@ -25,7 +25,28 @@ public class Game
 		board = new Board();
 	}
 
-	public void setBoard(Board board){
+	public Game(Stage primaryStage)
+	{
+		this.primaryStage = primaryStage;
+	}
+
+	public void addPlayer(Player player){
+		if (this.blackPlayer == null) {
+			blackPlayer = player;
+		} else {
+			whitePlayer = player;
+		}
+	}
+
+	public String getBlackName() {
+		return blackPlayer.getName();
+	}
+
+	public String getWhiteName() {
+		return whitePlayer.getName();
+	}
+
+	public void setBoard(Board board) {
 		this.board = board;
 	}
 

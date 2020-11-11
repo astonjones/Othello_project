@@ -1,5 +1,7 @@
 package application;
+
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +18,7 @@ public class Player implements java.io.Serializable
 	private int wins;
 	private int losses;
 	private boolean isAdmin;
-	private static String path = "/home/rc/repos/uni/Othello_project/Othello_Project/data/";
+	private static String path = Paths.get("").toAbsolutePath().toString().concat("\\data\\");
 
 	/**
 	 * Construct a new player or load the existing player

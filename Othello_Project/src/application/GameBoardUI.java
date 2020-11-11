@@ -213,9 +213,21 @@ public class GameBoardUI {
 			}
 		};
 		
+		EventHandler<ActionEvent> rulesPopUp = new EventHandler<ActionEvent>()
+		{
+			public void handle(ActionEvent e)
+			{
+				RulesUI rulesUI = new RulesUI(game.getStage(), blackTimer, whiteTimer);
+				rulesUI.openUI();
+				System.out.println("time interval set to " + blackTimer.initialInterval);
+			}
+		};
+		
 		pass.setOnAction(whenPass);
 		
 		quit.setOnAction(resignation);
+		
+		rules.setOnAction(rulesPopUp);
 		
 		othello.addAll(pass, quit, rules, records, loginp1, loginp2);
 		
@@ -237,6 +249,7 @@ public class GameBoardUI {
 					rootPane.setOnMouseClicked(null);
 					showResult();
 				} else {
+					rules.setDisable(true); //disable the rules button
 					int r = ((int)event.getY()-128)/50;
 					int c = ((int)event.getX()-150)/50;
 					System.out.println(r+" "+c);

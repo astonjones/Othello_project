@@ -31,15 +31,16 @@ public class GameTimer {
     	
     };
     
-    public GameTimer(TextField text, Game game) {
+    public GameTimer(TextField text, Game game)
+    {
     	this.game = game;
     	this.text = text;
+    	this.text.setText(getTimer());
     	timer = new Timer(TIMER_DELAY, taskPerformer);
     }
 	
 	public void startTimer()
 	{
-		System.out.println("Timer starts now");
 	    timer.start();
 	}
 	
@@ -47,13 +48,14 @@ public class GameTimer {
 	public void stop()
 	{
 		timer.stop();
-		System.out.println("Timer stops");
 	}
 	
 	// This allows the timer to be set
 	public void setTimer(int seconds)
 	{
 		initialInterval = seconds;
+		interval = initialInterval;
+		updateText();
 	}
 	
 	//This gets the current time in seconds left
@@ -62,14 +64,16 @@ public class GameTimer {
 		return String.valueOf(interval);
 	}
 	
-	public boolean isRunning() {
+	public boolean isRunning()
+	{
 		if(timer.isRunning())
 			return true;
 		return false;
 	}
 	
 	// updates the textfield associated with the time
-	public void updateText() {
+	public void updateText()
+	{
 		this.text.setText(getTimer());
 	}
 	

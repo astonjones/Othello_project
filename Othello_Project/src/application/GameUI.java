@@ -24,13 +24,13 @@ public class GameUI extends Application {
 		try { // anytime the Player(name, pass) constructor is used, it MUST be able to catch PasswordException
 			Player p1 = new Player("Jason", "123456");
 			Player p2 = new Player("Thomas", "345678");
+			Game game = new Game(primaryStage, p1, p2); // create a new game object
+			GameBoardUI gbUI = new GameBoardUI(game); // create a new game UI screen
+			gbUI.startGame(); // kickoff the gameboard UI
 		} catch (PasswordException e) {
 			e.printStackTrace();
 		}
 		
-		Game game = new Game(primaryStage, p1, p2); // create a new game object
-		GameBoardUI gbUI = new GameBoardUI(game); // create a new game UI screen
-		gbUI.startGame(); // kickoff the gameboard UI
 
 		// after the game is over, write game data
 		//game.saveGame();

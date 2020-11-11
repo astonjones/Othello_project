@@ -54,7 +54,7 @@ public class loginUI extends Application{
                 new TextField(),
                 password,
                 new PasswordField(),
-                new Button("LOGIN"));
+                new Button("Login"));
         loginPane.getChildren().addAll(vBox);
 
         button.setOnAction(actionEvent-> {

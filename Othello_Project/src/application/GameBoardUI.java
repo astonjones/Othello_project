@@ -17,8 +17,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-/**
- * 
+/** Original GUI created by Jason McElwee, later restructured for game integration by Ryan Campbell and Thomas King
+ * further edits done by entire team
  */
 public class GameBoardUI {
 	// board is now included in the game object

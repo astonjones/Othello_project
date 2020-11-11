@@ -5,12 +5,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GameTimer {
-	int initialInterval = 90;
-	int interval = initialInterval;
+	Game game;
+	int interval = 90;
 	Timer timer;
     final int TIMER_DELAY = 1000; //delay is milliseconds before task is to be executed
     TextField text; //update the GUI
-    Game game;
     
     //Action listener to perform every second.
     ActionListener taskPerformer = new ActionListener() {
@@ -24,7 +23,6 @@ public class GameTimer {
 				System.out.println("Timer ENDS!");
 			} else {
 			interval = interval - 1;
-			System.out.println(interval);
 			updateText();
 			}
 		}
@@ -35,6 +33,7 @@ public class GameTimer {
     {
     	this.game = game;
     	this.text = text;
+    	this.interval = game.getTime();
     	this.text.setText(getTimer());
     	timer = new Timer(TIMER_DELAY, taskPerformer);
     }
@@ -53,9 +52,7 @@ public class GameTimer {
 	// This allows the timer to be set
 	public void setTimer(int seconds)
 	{
-		initialInterval = seconds;
-		interval = initialInterval;
-		updateText();
+		interval = seconds;
 	}
 	
 	//This gets the current time in seconds left

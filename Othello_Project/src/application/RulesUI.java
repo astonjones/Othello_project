@@ -17,13 +17,11 @@ public class RulesUI {
 Stage primaryStage;
 TextField textfield = new TextField();
 Stage newWindow = new Stage();
-GameTimer timer1;
-GameTimer timer2;
+Game game;
 	
-	public RulesUI(Stage primaryStage, GameTimer timer1, GameTimer timer2) {
+	public RulesUI(Stage primaryStage, Game game) {
 		this.primaryStage = primaryStage;
-		this.timer1 = timer1;
-		this.timer2 = timer2;
+		this.game = game;
 	}
 	
 	public void openUI() {
@@ -70,8 +68,7 @@ GameTimer timer2;
 			int seconds = Integer.parseInt(textfield.getText());
 			//Need to scan textfield to make sure it contains only numbers
 			
-			timer1.setTimer(seconds);
-			timer2.setTimer(seconds);
+			game.setTime(seconds);
 			
 			newWindow.close();
 		}

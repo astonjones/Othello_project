@@ -39,8 +39,8 @@ public class GameBoardUI {
 	public GameBoardUI(Game game)
 	{
 		this.game = game;
-		this.blackTimer = new GameTimer(P1Timer, game);
-		this.whiteTimer = new GameTimer(P2Timer, game);
+		this.blackTimer = new GameTimer(P1Timer, this.game);
+		this.whiteTimer = new GameTimer(P2Timer, this.game);
 	}
 
 	/**
@@ -167,8 +167,8 @@ public class GameBoardUI {
 		loginp2.setLayoutX(982);
 		loginp2.setLayoutY(518);
 		
-		rules.setLayoutX(900);
-		rules.setLayoutY(518);
+//		rules.setLayoutX(900);
+//		rules.setLayoutY(518);
 		
 		
 		EventHandler<ActionEvent> whenPass = new EventHandler<ActionEvent>()
@@ -213,23 +213,23 @@ public class GameBoardUI {
 			}
 		};
 		
-		EventHandler<ActionEvent> rulesPopUp = new EventHandler<ActionEvent>()
-		{
-			public void handle(ActionEvent e)
-			{
-				RulesUI rulesUI = new RulesUI(game.getStage(), blackTimer, whiteTimer);
-				rulesUI.openUI();
-				System.out.println("time interval set to " + blackTimer.initialInterval);
-			}
-		};
+//		EventHandler<ActionEvent> rulesPopUp = new EventHandler<ActionEvent>()
+//		{
+//			public void handle(ActionEvent e)
+//			{
+//				RulesUI rulesUI = new RulesUI(game.getStage(), blackTimer, whiteTimer);
+//				rulesUI.openUI();
+//				System.out.println("time interval set to " + blackTimer.initialInterval);
+//			}
+//		};
 		
 		pass.setOnAction(whenPass);
 		
 		quit.setOnAction(resignation);
 		
-		rules.setOnAction(rulesPopUp);
+//		rules.setOnAction(rulesPopUp);
 		
-		othello.addAll(pass, quit, rules, records, loginp1, loginp2);
+		othello.addAll(pass, quit, records, loginp1, loginp2);
 		
 		updateBoardPosition();
 		

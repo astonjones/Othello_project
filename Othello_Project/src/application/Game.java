@@ -9,8 +9,7 @@ public class Game
 {
 	private int whiteScore;
 	private int blackScore;
-	private int whiteTime;
-	private int blackTime;
+	private int time = 90; //default time for timer is 90 seconds
 	
 	private Stage primaryStage;
 	private Player blackPlayer;
@@ -64,14 +63,14 @@ public class Game
 		return blackScore;
 	}
 	
-	public int getWhiteTime()
+	public int getTime()
 	{
-		return whiteTime;
+		return time;
 	}
 	
-	public int getBlackTime()
+	public void setTime(int seconds)
 	{
-		return blackTime;
+		this.time = seconds;
 	}
 
 	public Stage getStage()

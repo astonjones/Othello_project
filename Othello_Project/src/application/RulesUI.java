@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,9 +28,9 @@ GameTimer timer2;
 	
 	public void openUI() {
         Label titleLabel = new Label("Change the amount of time each player has in the game.");
-	titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setTextFill(Color.WHITE);
         Label subLabel = new Label("Please input in seconds");
-	subLabel.setTextFill(Color.WHITE);
+        subLabel.setTextFill(Color.WHITE);
         Button submit = new Button("Submit");
         submit.setOnAction(setTimer);
         

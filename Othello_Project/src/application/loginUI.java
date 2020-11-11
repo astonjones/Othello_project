@@ -33,12 +33,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.*;
 
+/** created by Jason McElwee
+ * This class displays a window for a player or administrator to log in
+ */
+
+
 public class loginUI extends Application{
 	
 	private StackPane loginPane = new StackPane();
 	
     private Stage stage;
-	
+	//method creates the vbox and subsequent labels and textfields for the loginUI
 	public void init() {
         Button button = new Button("OPEN");
         VBox vBox = new VBox();
@@ -55,8 +60,9 @@ public class loginUI extends Application{
                 password,
                 new PasswordField(),
                 new Button("Login"));
-        loginPane.getChildren().addAll(vBox);
-
+        loginPane.getChildren().addAll(vBox);.
+		
+	//gives button purpose
         button.setOnAction(actionEvent-> {
             if(stage!=null){
                 stage.requestFocus();
@@ -69,7 +75,7 @@ public class loginUI extends Application{
         });
     }
 	
-	
+	//stage settings for when it starts
 	public void start(Stage loginStage) {
 		
 		loginPane.setStyle("-fx-background-color:#520100;");
@@ -81,7 +87,7 @@ public class loginUI extends Application{
 	}
 	
 	
-	
+	//main
 	public static void main(String[] args) {
 		launch(args);		
 	}

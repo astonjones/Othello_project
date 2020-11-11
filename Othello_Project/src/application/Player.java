@@ -16,6 +16,7 @@ public class Player implements java.io.Serializable
 	private int wins;
 	private int losses;
 	private boolean isAdmin;
+	private static String path = "/home/rc/repos/uni/Othello_project/Othello_Project/data/";
 
 	/**
 	 * Construct a new player or load the existing player
@@ -45,9 +46,9 @@ public class Player implements java.io.Serializable
 	* Provide an array list of all players and their win/loss record
 	* @return	ArrayList<String> a list of player data
 	*/
-   public ArrayList<String> getPlayerRecords(){
+   public static ArrayList<String> getPlayerRecords(){
 	   ArrayList<String> records = new ArrayList<>();
-	   File dir = new File("data/");
+	   File dir = new File(path);
 	   File[] fileList = dir.listFiles();
 
 	   // for every file in data/, retreive each playername, wins, losses, write to arraylist
@@ -86,7 +87,7 @@ public class Player implements java.io.Serializable
 	public boolean isSavedPlayer (String name) {
 
         // check if file equal to name.ser exists
-        File check = new File("data/" + name + ".ser");
+        File check = new File(path + name + ".ser");
         return check.exists();
 
 	}
@@ -100,7 +101,7 @@ public class Player implements java.io.Serializable
     private void loadPlayer (String name, String pass) throws PasswordException {
 
         try {
-            FileInputStream playerFile = new FileInputStream("data/" + name + ".ser");
+            FileInputStream playerFile = new FileInputStream(path + name + ".ser");
             ObjectInputStream playerObj = new ObjectInputStream(playerFile);
 
             // create a temporary player to hold the loaded data
@@ -135,7 +136,7 @@ public class Player implements java.io.Serializable
      */
 	private void savePlayer() {
 		try {
-            String fileName = "data/" + this.getName() + ".ser";
+            String fileName = path + this.getName() + ".ser";
 			FileOutputStream fileOut = new FileOutputStream(fileName);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(this);

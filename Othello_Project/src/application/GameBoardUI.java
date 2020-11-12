@@ -202,6 +202,8 @@ public class GameBoardUI {
 		
 		quit.setOnAction(resignation);
 		
+		othello.addAll(pass, quit, rules);
+		
 		updateBoardPosition();
 		
 		Scene scene = new Scene(rootPane, 1200, 800);

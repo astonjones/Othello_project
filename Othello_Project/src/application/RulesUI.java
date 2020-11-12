@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -22,9 +23,9 @@ VBox vBox;
 Game game;
 Text loginText;
 	
-	public RulesUI(Stage primaryStage, Text text, Game game) {
+	public RulesUI(Stage primaryStage, Game game) {
 		this.primaryStage = primaryStage;
-		this.loginText = text;
+		loginText = new Text();
 		this.game = game;
 	}
 	
@@ -65,6 +66,7 @@ Text loginText;
 	        // New window (Stage)
 	        newWindow.setTitle("Second Stage");
 	        newWindow.setScene(secondScene);
+	        newWindow.getIcons().add(new Image("file:icon.PNG"));
 
 	        // Specifies the modality for new window.
 	        newWindow.initModality(Modality.WINDOW_MODAL);

@@ -78,7 +78,8 @@ Text loginText;
 
 	        newWindow.show();
 		} else {
-			System.out.println("need to be and admin!");
+			loginText.setText("Need to be an admin!");
+			System.out.println("need to be an admin!");
 		}
 		
 		

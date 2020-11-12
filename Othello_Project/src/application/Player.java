@@ -39,7 +39,7 @@ public class Player implements java.io.Serializable
 
         } else {
 
-			if (name.length() == 5 & pass.length() == 5){
+			if (name.length() == 5 & pass.length() == 5 && name.matches("[0-9a-zA-Z]{5}") && pass.matches("\\w{5}")){
 				System.out.println("New Player detected.");
             	// the player file does not exist, so initialize and serialize the new player
             	this.playerName = name;

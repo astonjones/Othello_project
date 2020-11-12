@@ -37,6 +37,14 @@ public class Game
 		}
 	}
 
+	public Player getBlackPlayer() {
+		return blackPlayer;
+	}
+
+	public Player getWhitePlayer() {
+		return whitePlayer;
+	}
+
 	public String getBlackName() {
 		return blackPlayer.getName();
 	}

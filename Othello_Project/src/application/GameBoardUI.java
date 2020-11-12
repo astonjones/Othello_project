@@ -147,9 +147,6 @@ public class GameBoardUI {
 		
 		Button pass = new Button("Pass");
 		Button quit = new Button("Quit");
-		Button records = new Button("Records");
-		Button loginp1 = new Button("Login");
-		Button loginp2 = new Button("Login");
 		Button rules = new Button("Time Limit");
 		
 		pass.setLayoutX(900);
@@ -157,15 +154,6 @@ public class GameBoardUI {
 		
 		quit.setLayoutX(1057);
 		quit.setLayoutY(300);
-		
-		records.setLayoutX(1042);
-		records.setLayoutY(518);
-		
-		loginp1.setLayoutX(975);
-		loginp1.setLayoutY(300);
-		
-		loginp2.setLayoutX(982);
-		loginp2.setLayoutY(518);
 		
 		
 		EventHandler<ActionEvent> whenPass = new EventHandler<ActionEvent>()
@@ -213,8 +201,6 @@ public class GameBoardUI {
 		pass.setOnAction(whenPass);
 		
 		quit.setOnAction(resignation);
-		
-		othello.addAll(pass, quit, records, loginp1, loginp2);
 		
 		updateBoardPosition();
 		
@@ -311,29 +297,6 @@ public class GameBoardUI {
 			}
 		});
 	}
-
-	/**
-	 * 
-	 */
-	public void passTurn() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void quitGame() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void selectSpace() {
-		// TODO implement here
-	}
-
-
 		
 	public static Rectangle cellFinder(int x, int y)
 	{
@@ -401,6 +364,16 @@ public class GameBoardUI {
 		endOfGame.setFill(Color.WHITE);
 		
 		String endText = game.getGameBoard().winner();
+
+		if (endText.equals("Black is victorious.")){
+			game.getBlackPlayer().updateRecord(true);
+			game.getWhitePlayer().updateRecord(false);
+		} else {
+			game.getBlackPlayer().updateRecord(false);
+			game.getWhitePlayer().updateRecord(true);
+		}
+
+
 		if(game.getGameBoard().timeUp) {
 			endOfGame.setText("Time is Up  -   Game Over.\n" + endText);
 		}

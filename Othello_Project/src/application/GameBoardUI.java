@@ -202,7 +202,7 @@ public class GameBoardUI {
 		
 		quit.setOnAction(resignation);
 		
-		othello.addAll(pass, quit, rules);
+		othello.addAll(pass, quit);
 		
 		updateBoardPosition();
 		

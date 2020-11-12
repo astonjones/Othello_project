@@ -182,12 +182,24 @@ public class GameBoardUI {
 							othello.remove(P2Border);
 							othello.add(P1Border);
 							P1Border.toBack();
+							
+							//Stop player white timer.
+							whiteTimer.stop();
+							
+							//Timer starts for player black
+							blackTimer.startTimer();
 						}
 						else
 						{
 							othello.remove(P1Border);
 							othello.add(P2Border);
 							P2Border.toBack();
+							
+							//Stop black timer
+							blackTimer.stop();
+							
+							//Timer starts for player white
+							whiteTimer.startTimer();
 						}
 					}
 				}
@@ -224,6 +236,7 @@ public class GameBoardUI {
 		game.getStage().getIcons().add(new Image("file:icon.PNG"));
 		game.getStage().centerOnScreen();
 		game.getStage().show();
+		blackTimer.startTimer();
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
@@ -244,9 +257,6 @@ public class GameBoardUI {
 					}
 					game.getGameBoard().justPassed = false;
 					game.getGameBoard().placeDisc(r, c);
-					
-					if(blackTimer.isRunning() || whiteTimer.isRunning())
-						blackTimer.startTimer();
 						
 					updateBoardPosition();
 					if(othello.contains(P2Border))
@@ -401,6 +411,9 @@ public class GameBoardUI {
 			endOfGame.setText("     Game Over.\n" + endText);
 		}
 		othello.addAll(endOfGame);
+		
+		blackTimer.stop();
+		whiteTimer.stop();
 	}
 	
 

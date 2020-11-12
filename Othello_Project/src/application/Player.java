@@ -23,10 +23,14 @@ public class Player implements java.io.Serializable
 	/**
 	 * Construct a new player or load the existing player
 	 */
-	public Player (String name, String pass) throws PasswordException{
+	public Player (String name, String pass, boolean isAdmin) throws PasswordException{
 
         // if player exists then load it
-        if (isSavedPlayer(name)) {
+		if (isAdmin) {
+			if (!(name.equals("admin") & pass.equals("admin"))) {
+				throw new PasswordException("Incorrect Admin Password");
+			}
+		} else if (isSavedPlayer(name)) {
 
             System.out.println("Existing player detected.");
             loadPlayer(name, pass);

@@ -14,6 +14,7 @@ public class Game
 	private Stage primaryStage;
 	private Player blackPlayer;
 	private Player whitePlayer;
+	private Player admin;
 	private Board board;
 	/**
 	 * Default constructor
@@ -30,7 +31,10 @@ public class Game
 	}
 
 	public void addPlayer(Player player){
-		if (this.blackPlayer == null) {
+
+		if (player.isAdmin()){
+			this.admin = player;
+		} else if (this.blackPlayer == null) {
 			blackPlayer = player;
 		} else {
 			whitePlayer = player;
@@ -43,6 +47,10 @@ public class Game
 
 	public Player getWhitePlayer() {
 		return whitePlayer;
+	}
+
+	public Player getAdmin() {
+		return admin;
 	}
 
 	public String getBlackName() {

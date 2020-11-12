@@ -46,16 +46,14 @@ public class MainUI extends Application {
 		Button viewRecords = new Button("View Records");
 		Button exit = new Button("Exit Game");
 		Button rules = new Button("Change Game Rules");
-		Text adminText = new Text();
-		adminText.setFill(Color.WHITE);
+		
 
         vBox.getChildren().addAll(
 			   loginP1,
 			   loginP2,
 			   playGame,
 			   viewRecords,
-			   rules,
-			   adminText
+			   rules
 		);
 		
 		mainPane.getChildren().addAll(vBox);
@@ -85,9 +83,7 @@ public class MainUI extends Application {
 		});
 		
 		rules.setOnAction(actionEvent-> {
-			//TODO need to have a conditional for if a player logged in is an admin.
-			RulesUI rulesUI = new RulesUI(secondaryStage, adminText, game);
-			rulesUI.openUI();
+			startAdminLogin(secondaryStage);
 		});
 		
 		exit.setOnAction(actionEvent-> {
@@ -109,7 +105,6 @@ public class MainUI extends Application {
 	 * UI for logging into a game
 	 * @param loginStage
 	 */
-
 	public void startLoginUI(Stage loginStage) {
 
 		StackPane loginPane = new StackPane();
@@ -136,7 +131,7 @@ public class MainUI extends Application {
         // gives button purpose
         login.setOnAction(actionEvent -> {
             try {
-                Player player = new Player(userField.getText(), passField.getText());
+                Player player = new Player(userField.getText(), passField.getText(), false);
 				System.out.println("Login Successs.");
 				game.addPlayer(player);
                 loginStage.close();
@@ -147,7 +142,71 @@ public class MainUI extends Application {
                 incorrectPass.setFill(Color.WHITE);
                 vBox.getChildren().addAll(incorrectPass);
             }
-        });
+		});
+
+        
+        // starts the UI
+		loginPane.setStyle("-fx-background-color:#520100;");
+		Scene loginScene = new Scene(loginPane,300,200);
+		loginStage.setTitle("Login");
+		loginStage.setScene(loginScene);
+		loginStage.getIcons().add(new Image("file:icon.PNG"));
+		loginStage.show();
+		loginStage.setAlwaysOnTop(true);
+	}
+
+	/**
+	 * UI for logging into a game
+	 * @param loginStage
+	 */
+	public void startAdminLogin(Stage loginStage) {
+
+		Text adminText = new Text();
+
+		StackPane loginPane = new StackPane();
+		// setup UI
+        // Button button = new Button("OPEN");
+        VBox vBox = new VBox();
+
+        vBox.setSpacing(8);
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+
+        Label username = new Label("Username");
+        username.setTextFill(Color.WHITE);
+        TextField userField = new TextField();
+
+        Label password = new Label("Password");
+        password.setTextFill(Color.WHITE);
+        PasswordField passField = new PasswordField();
+
+		Button login = new Button("Login");
+		Button exit = new Button("Exit");
+
+        vBox.getChildren().addAll(username, userField, password, passField, login, exit);
+        loginPane.getChildren().addAll(vBox);
+
+        // gives button purpose
+        login.setOnAction(actionEvent -> {
+            try {
+                Player player = new Player(userField.getText(), passField.getText(), true);
+				System.out.println("Login Successs.");
+				
+				RulesUI rulesUI = new RulesUI(loginStage, adminText, game);
+				rulesUI.openUI();
+
+            } catch (PasswordException e) {
+                // If the exception 
+                System.out.println("Incorrect Password.");
+                Text incorrectPass = new Text("Incorrect Password");
+                incorrectPass.setFill(Color.WHITE);
+                vBox.getChildren().addAll(incorrectPass);
+            }
+		});
+
+		exit.setOnAction(actionEvent -> {
+            loginStage.close();
+		});
+
         
         // starts the UI
 		loginPane.setStyle("-fx-background-color:#520100;");

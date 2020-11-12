@@ -48,7 +48,7 @@ public class LoginUI extends Application {
         // gives button purpose
         login.setOnAction(actionEvent -> {
             try {
-                player = new Player(userField.getText(), passField.getText());
+                player = new Player(userField.getText(), passField.getText(), false);
                 System.out.println("Login Successs.");
                 loginStage.close();
             } catch (PasswordException e) {

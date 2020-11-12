@@ -39,8 +39,8 @@ public class GameBoardUI {
 	public GameBoardUI(Game game)
 	{
 		this.game = game;
-		this.blackTimer = new GameTimer(P1Timer, this.game);
-		this.whiteTimer = new GameTimer(P2Timer, this.game);
+		this.blackTimer = new GameTimer(P1Timer, game);
+		this.whiteTimer = new GameTimer(P2Timer, game);
 	}
 
 	/**

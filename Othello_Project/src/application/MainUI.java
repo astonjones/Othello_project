@@ -46,13 +46,16 @@ public class MainUI extends Application {
 		Button viewRecords = new Button("View Records");
 		Button exit = new Button("Exit Game");
 		Button rules = new Button("Change Game Rules");
+		Text adminText = new Text();
+		adminText.setFill(Color.WHITE);
 
         vBox.getChildren().addAll(
 			   loginP1,
 			   loginP2,
 			   playGame,
 			   viewRecords,
-			   rules
+			   rules,
+			   adminText
 		);
 		
 		mainPane.getChildren().addAll(vBox);
@@ -83,7 +86,7 @@ public class MainUI extends Application {
 		
 		rules.setOnAction(actionEvent-> {
 			//TODO need to have a conditional for if a player logged in is an admin.
-			RulesUI rulesUI = new RulesUI(secondaryStage, game);
+			RulesUI rulesUI = new RulesUI(secondaryStage, adminText, game);
 			rulesUI.openUI();
 		});
 		

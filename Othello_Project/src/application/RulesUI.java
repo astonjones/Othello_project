@@ -23,9 +23,9 @@ VBox vBox;
 Game game;
 Text loginText;
 	
-	public RulesUI(Stage primaryStage, Game game) {
+	public RulesUI(Stage primaryStage, Text text, Game game) {
 		this.primaryStage = primaryStage;
-		loginText = new Text();
+		this.loginText = text;
 		this.game = game;
 	}
 	

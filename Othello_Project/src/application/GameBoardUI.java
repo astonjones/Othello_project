@@ -33,6 +33,8 @@ public class GameBoardUI {
 	static TextField P1Timer = new TextField();
 	static TextField P2Timer = new TextField();
 	
+	public static boolean gameOver;
+	
 	/**
 	 * Default constructor
 	 */
@@ -160,6 +162,10 @@ public class GameBoardUI {
 		{
 			public void handle(ActionEvent e)
 			{
+				if(gameOver)
+				{
+					return;
+				}
 				if(game.getGameBoard().mustPass())
 				{
 					if(game.getGameBoard().justPassed) //double pass
@@ -192,6 +198,10 @@ public class GameBoardUI {
 		{
 			public void handle(ActionEvent e)
 			{
+				if(gameOver)
+				{
+					return;
+				}
 				game.getGameBoard().resigned = true;
 				rootPane.setOnMouseClicked(null);
 				showResult();
@@ -205,6 +215,7 @@ public class GameBoardUI {
 		othello.addAll(pass, quit);
 		
 		updateBoardPosition();
+		gameOver = false;
 		
 		Scene scene = new Scene(rootPane, 1200, 800);
 
@@ -360,6 +371,7 @@ public class GameBoardUI {
 	
 	public static void showResult()
 	{
+		gameOver = true;
 		Text endOfGame = new Text("");
 		endOfGame.setLayoutX(240);
 		endOfGame.setLayoutY(580);

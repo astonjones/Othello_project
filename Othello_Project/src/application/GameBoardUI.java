@@ -36,11 +36,11 @@ public class GameBoardUI {
 	/**
 	 * Default constructor
 	 */
-	public GameBoardUI(Game game)
+	public GameBoardUI(Game g)
 	{
-		this.game = game;
-		this.blackTimer = new GameTimer(P1Timer, game);
-		this.whiteTimer = new GameTimer(P2Timer, game);
+		game = g;
+		blackTimer = new GameTimer(P1Timer, game);
+		whiteTimer = new GameTimer(P2Timer, game);
 	}
 
 	/**
@@ -211,6 +211,7 @@ public class GameBoardUI {
 		game.getStage().setTitle("Othello");
 		game.getStage().setScene(scene);
 		game.getStage().getIcons().add(new Image("file:icon.PNG"));
+		game.getStage().centerOnScreen();
 		game.getStage().show();
 		
 		rootPane.setOnMouseClicked(new EventHandler<MouseEvent>()

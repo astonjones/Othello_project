@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 
 
 /** Original GUI created by Jason McElwee, restructured for game integration by Ryan Campbell. Further edits done by entire team.
@@ -45,23 +46,19 @@ public class MainUI extends Application {
 		Button viewRecords = new Button("View Records");
 		Button exit = new Button("Exit Game");
 		Button rules = new Button("Change Game Rules");
-		Text adminText = new Text();
-        adminText.setFill(Color.WHITE);
-        adminText.setLayoutX(50);
-        adminText.setLayoutY(250);
 
         vBox.getChildren().addAll(
 			   loginP1,
 			   loginP2,
 			   playGame,
 			   viewRecords,
-			   rules,
-			   adminText
+			   rules
 		);
 		
 		mainPane.getChildren().addAll(vBox);
 		
 		Stage secondaryStage = new Stage();
+		secondaryStage.getIcons().add(new Image("file:icon.PNG"));
 
 	    // let player 1 login
         loginP1.setOnAction(actionEvent-> {
@@ -86,7 +83,7 @@ public class MainUI extends Application {
 		
 		rules.setOnAction(actionEvent-> {
 			//TODO need to have a conditional for if a player logged in is an admin.
-			RulesUI rulesUI = new RulesUI(secondaryStage, adminText, game);
+			RulesUI rulesUI = new RulesUI(secondaryStage, game);
 			rulesUI.openUI();
 		});
 		
@@ -99,6 +96,7 @@ public class MainUI extends Application {
 		Scene loginScene = new Scene(mainPane,300,200);
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(loginScene);
+		primaryStage.getIcons().add(new Image("file:icon.PNG"));
 		primaryStage.show();
 		primaryStage.setAlwaysOnTop(true);
 
@@ -153,6 +151,7 @@ public class MainUI extends Application {
 		Scene loginScene = new Scene(loginPane,300,200);
 		loginStage.setTitle("Login");
 		loginStage.setScene(loginScene);
+		loginStage.getIcons().add(new Image("file:icon.PNG"));
 		loginStage.show();
 		loginStage.setAlwaysOnTop(true);
 	}

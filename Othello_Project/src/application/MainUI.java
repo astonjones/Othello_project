@@ -136,7 +136,9 @@ public class MainUI extends Application {
             } catch (PasswordException e) {
                 // If the exception 
                 System.out.println("Incorrect Password.");
-                // TODO: popup message for incorrect password
+                Text incorrectPass = new Text("Incorrect Password");
+                incorrectPass.setFill(Color.WHITE);
+                vBox.getChildren().addAll(incorrectPass);
             }
         });
         

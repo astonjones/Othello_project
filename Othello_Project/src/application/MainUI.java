@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -44,13 +45,18 @@ public class MainUI extends Application {
 		Button viewRecords = new Button("View Records");
 		Button exit = new Button("Exit Game");
 		Button rules = new Button("Change Game Rules");
+		Text adminText = new Text();
+        adminText.setFill(Color.WHITE);
+        adminText.setLayoutX(50);
+        adminText.setLayoutY(250);
 
         vBox.getChildren().addAll(
 			   loginP1,
 			   loginP2,
 			   playGame,
 			   viewRecords,
-			   rules
+			   rules,
+			   adminText
 		);
 		
 		mainPane.getChildren().addAll(vBox);
@@ -80,7 +86,7 @@ public class MainUI extends Application {
 		
 		rules.setOnAction(actionEvent-> {
 			//TODO need to have a conditional for if a player logged in is an admin.
-			RulesUI rulesUI = new RulesUI(secondaryStage, game);
+			RulesUI rulesUI = new RulesUI(secondaryStage, adminText, game);
 			rulesUI.openUI();
 		});
 		
@@ -137,6 +143,11 @@ public class MainUI extends Application {
                 // If the exception 
                 System.out.println("Incorrect Password.");
                 // TODO: popup message for incorrect password
+                Text incorrectPass = new Text("incorrect password");
+                incorrectPass.setFill(Color.WHITE);
+                incorrectPass.setLayoutX(50);
+                incorrectPass.setLayoutY(250);
+                vBox.getChildren().addAll(incorrectPass);
             }
         });
         

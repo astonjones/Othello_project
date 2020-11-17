@@ -285,7 +285,7 @@ public class Board
 	
 	public String winner()
 	{
-		if(resigned)
+		if(resigned || timeUp)
 		{
 			return (turn == 1 ? "White is victorious." : "Black is victorious.");
 		}

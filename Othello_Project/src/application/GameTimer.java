@@ -1,77 +1,99 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class GameTimer {
-	Game game;
+	GameBoardUI gameBoardUI;
 	int interval = 90;
+	int blackInterval = interval;
+	int whiteInterval = interval;
 	Timer timer;
     final int TIMER_DELAY = 1000; //delay is milliseconds before task is to be executed
-    TextField text; //update the GUI
     
     //Action listener to perform every second.
     ActionListener taskPerformer = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(interval == 0)
+			if(GameBoardUI.game.getGameBoard().turn == 1) 
 			{
-				timer.stop();
-				game.getGameBoard().timeUp = true;
-				System.out.println("Timer ENDS!");
+				if(blackInterval < 1) 
+				{
+					gameOver();	
+					timer.stop();
+				} else {
+					blackInterval = blackInterval - 1;
+					updateBlackText();
+				}
 			} else {
-			interval = interval - 1;
-			updateText();
+				if(whiteInterval < 1) 
+				{
+					gameOver();	
+					timer.stop();
+				} else {
+					whiteInterval = whiteInterval - 1;
+					updateWhiteText();
+				}
 			}
 		}
-    	
     };
     
-    public GameTimer(TextField text, Game game)
+    public GameTimer(GameBoardUI gameBoardUI)
     {
-    	this.game = game;
-    	this.text = text;
-    	this.interval = game.getTime();
-    	this.text.setText(getTimer());
+    	this.gameBoardUI = gameBoardUI;
+    	setTimer(GameBoardUI.game.getTime());
     	timer = new Timer(TIMER_DELAY, taskPerformer);
+    	
+    	GameBoardUI.P1Timer.setText(getBlackTime());
+    	GameBoardUI.P2Timer.setText(getWhiteTime());
+    	System.out.println("game get time is " + GameBoardUI.game.getTime());
+    	System.out.println("interval is " + interval);
+    	timer.start();
     }
-	
-	public void startTimer()
-	{
-	    timer.start();
-	}
-	
-	// changes timer back to the initial time that was set
-	public void stop()
-	{
-		timer.stop();
-	}
 	
 	// This allows the timer to be set
 	public void setTimer(int seconds)
 	{
 		interval = seconds;
+		blackInterval = interval;
+		whiteInterval = interval;
 	}
 	
-	//This gets the current time in seconds left
-	public String getTimer()
+	public String getBlackTime()
 	{
-		return String.valueOf(interval);
+		return String.valueOf(blackInterval);
 	}
 	
-	public boolean isRunning()
+	public String getWhiteTime()
 	{
-		if(timer.isRunning())
-			return true;
-		return false;
+		return String.valueOf(whiteInterval);
 	}
 	
 	// updates the textfield associated with the time
-	public void updateText()
+	public void updateBlackText()
 	{
-		this.text.setText(getTimer());
+		GameBoardUI.P1Timer.setText(getBlackTime());
+	}
+	
+	public void updateWhiteText() 
+	{
+		GameBoardUI.P2Timer.setText(getWhiteTime());
+	}
+	
+	public void gameOver()
+	{
+		gameBoardUI.game.getGameBoard().timeUp = true;
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				GameBoardUI.showResult();
+			}
+		});
 	}
 	
 }

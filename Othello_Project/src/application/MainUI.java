@@ -74,6 +74,7 @@ public class MainUI extends Application {
 		// Play the game iff two players have logged in
 		playGame.setOnAction(actionEvent-> {
 			GameBoardUI gbUI = new GameBoardUI(game);
+			GameTimer timer = new GameTimer(gbUI);
 			gbUI.startGame();
 		});
 

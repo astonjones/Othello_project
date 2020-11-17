@@ -25,6 +25,8 @@ public class Player implements java.io.Serializable
 	 */
 	public Player (String name, String pass, boolean isAdmin) throws PasswordException{
 
+		int i;
+
         // if player exists then load it
 		if (isAdmin) {
 			if (!(name.equals("admin") & pass.equals("admin"))) {
@@ -36,14 +38,20 @@ public class Player implements java.io.Serializable
             loadPlayer(name, pass);
 
         } else {
-            System.out.println("New Player detected.");
-            // the player file does not exist, so initialize and serialize the new player
-            this.playerName = name;
-            this.password = pass;
-            this.wins = 0;
-            this.losses = 0;
-            this.isAdmin = false;
-            this.savePlayer();
+
+			if (name.length() == 5 & pass.length() == 5 && name.matches("[0-9a-zA-Z]{5}") && pass.matches("\\w{5}")){
+				System.out.println("New Player detected.");
+            	// the player file does not exist, so initialize and serialize the new player
+            	this.playerName = name;
+            	this.password = pass;
+            	this.wins = 0;
+            	this.losses = 0;
+            	this.isAdmin = false;
+            	this.savePlayer();
+			} else {
+				throw new PasswordException("Name or Password Invalid (to short/long or invalid characters)");
+			}
+            
         }
     
 	}

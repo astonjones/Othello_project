@@ -139,7 +139,7 @@ public class MainUI extends Application {
             } catch (PasswordException e) {
                 // If the exception 
                 System.out.println("Incorrect Password.");
-                Text incorrectPass = new Text("Incorrect Password");
+                Text incorrectPass = new Text("Name or Password Invalid ");
                 incorrectPass.setFill(Color.WHITE);
                 vBox.getChildren().addAll(incorrectPass);
             }
